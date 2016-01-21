@@ -1,0 +1,358 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
+                    xmlns:helperConverters="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
+                    xmlns:staffing="clr-namespace:Personnel.Application.ViewModels.Staffing;assembly=Personnel.Application.ViewModels"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+                    xmlns:add="clr-namespace:Personnel.Appn.Additional"
+                    xmlns:svgc="http://sharpvectors.codeplex.com/svgc/">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+        <ResourceDictionary Source="/Personnel.Appn;component/Styles/Generic.xaml"/>
+        <ResourceDictionary Source="/Personnel.Appn;component/Templates/Staffing/DepartmentStaffingTemplates.xaml" />
+        <ResourceDictionary Source="/Personnel.Appn;component/Templates/Staffing/EmployeeTemplate.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <svgc:SvgViewbox x:Key="plusContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.add.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="minusContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.minus.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="deleteContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.user.delete.svg"
+                     IsHitTestVisible="False"/>
+
+    <helperConverters:ReverseBooleanToVisibilityConverter x:Key="departmentsReverseBooleanToVisibilityConverter"/>
+    <BooleanToVisibilityConverter x:Key="departmentsBooleanToVisibilityConverter"/>
+    <helperConverters:MultiBooleanANDToBooleanConverter x:Key="departmentsMultiBooleanANDToBooleanConverter"/>
+    <helperConverters:IsEqualsConverter x:Key="departmentsIsEqualsConverter"/>
+    <helperConverters:ApplyConverter x:Key="departmentsApplyConverter"/>
+    <helperConverters:IsNotEqualsConverter x:Key="departmentsIsNotEqualsConverter"/>
+    <helperConverters:IsNotEqualVisibilityConverter x:Key="departmentsIsNotEqualVisibilityConverter"/>
+    <helperConverters:IsEqualVisibilityConverter x:Key="departmentsIsEqualVisibilityConverter"/>
+    <localConverters:IsNotEmptyStringConverter x:Key="departmentsIsNotEmptyStringConverter"/>
+    <localConverters:IsNotEmptyStringToVisibilityConverter x:Key="departmentsIsNotEmptyStringToVisibilityConverter"/>
+    <helperConverters:MultiBooleanANDToVisibilityConverter x:Key="departmentsMultiBooleanANDToVisibilityConverter"/>
+    
+    <DataTemplate x:Key="EmployeesListTemplate" DataType="{x:Type staffing:StaffingViewModel}" >
+        <ScrollViewer x:Name="PART_Root" DataContext="{Binding}" 
+                      VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer.Resources>
+                <CollectionViewSource Source="{Binding Employees, Mode=OneWay}" x:Key="sortedEmployees">
+                    <CollectionViewSource.SortDescriptions>
+                        <!--<scm:SortDescription PropertyName="IsEmpty" Direction="Ascending"/>-->
+                        <scm:SortDescription PropertyName="Employee.Surname" Direction="Ascending"/>
+                        <scm:SortDescription PropertyName="Employee.Name" Direction="Ascending"/>
+                        <scm:SortDescription PropertyName="Employee.Patronymic" Direction="Ascending"/>
+                    </CollectionViewSource.SortDescriptions>
+                    <!--<i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Filter">
+                            <add:EventToCommand Command="{Binding ElementName=PART_Root, Path=DataContext.EmployeesFilterCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>-->
+                </CollectionViewSource>
+            </ScrollViewer.Resources>
+
+            <ItemsControl ItemsSource="{Binding Source={StaticResource sortedEmployees}}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type staffing:EmployeeViewModel}">
+                        <ContentPresenter ContentTemplate="{StaticResource EmployeeTemplateTopImageWithDepartment}"
+                                          Content="{Binding}"
+                                          Margin="4"
+                                          x:Name="PART_ContentPresenter"/>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=PART_Root, Path=DataContext.CanManageStaffing}" Value="True">
+                                <Setter TargetName="PART_ContentPresenter" Property="ContentTemplate" Value="{StaticResource EmployeeTemplateTopImageWithDepartmentSimpleDraggable}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsEmpty}" Value="True">
+                                <Setter TargetName="PART_ContentPresenter" Property="ContentTemplate" Value="{StaticResource EmployeeEmptyTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Value="True">
+                                <DataTrigger.Binding>
+                                    <MultiBinding Converter="{StaticResource departmentsMultiBooleanANDToBooleanConverter}">
+                                        <Binding ElementName="PART_Root" Path="DataContext.CanManageEmployes" Converter="{StaticResource departmentStaffingIsEqualsConverter}" ConverterParameter="False"/>
+                                        <Binding Path="IsEmpty"/>
+                                    </MultiBinding>
+                                </DataTrigger.Binding>
+                                <Setter TargetName="PART_ContentPresenter" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </DataTemplate>
+    
+    <HierarchicalDataTemplate x:Key="recursiveDepartmentTemplate" ItemsSource="{Binding Childs}" DataType="{x:Type staffing:DepartmentEditViewModel}">
+        <Grid Background="Transparent" x:Name="RootItemGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Is busy progress bar (first column) -->
+            <ProgressBar Style="{DynamicResource MaterialDesignCircularProgressBar}" Width="20"
+                         Visibility="{Binding IsBusy, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
+                         IsIndeterminate="True"
+                         VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            
+            <Grid Grid.Column="1" VerticalAlignment="Center">
+                <Grid.IsEnabled>
+                    
+                    <!-- Disable if busy or is deleted -->
+                    <MultiBinding Converter="{StaticResource departmentsMultiBooleanANDToBooleanConverter}">
+                        <Binding Path="IsBusy" Converter="{StaticResource departmentsIsEqualsConverter}" ConverterParameter="False"/>
+                        <Binding Path="IsDeleted" Converter="{StaticResource departmentsIsEqualsConverter}" ConverterParameter="False"/>
+                    </MultiBinding>
+                </Grid.IsEnabled>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal">
+                    <!--<TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=ActualWidth, StringFormat=[width:{0}]}" Margin="8"
+                               Width="100"/>-->
+                    
+                    <StackPanel x:Name="PART_Error" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4">
+                        <Button VerticalAlignment="Center"
+                                Margin="8"
+                                Style="{DynamicResource MaterialDesignRaisedLightButton}"
+                                Command="{Binding CopyErrorCommand}" 
+                                ToolTip="{Binding Error, StringFormat=Press button to copy error: {0}}"
+                                ToolTipService.IsEnabled="True">
+                            <Button.LayoutTransform>
+                                <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                            </Button.LayoutTransform>
+                            <TextBlock Text="?" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel x:Name="PART_Caption" VerticalAlignment="Center" Margin="4" Orientation="Horizontal">
+                        <StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Owner.CanManageDepartments}" Value="True">
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <StackPanel.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding SetToEditModeCommand}"/>
+                        </StackPanel.InputBindings>
+
+                        <TextBlock Text="{Binding Data.Department.Id, StringFormat=[{0}]}" Margin="4" IsEnabled="False"
+                                   Visibility="{Binding Owner.IsDebugView, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
+                                   VerticalAlignment="Center"
+                                   FontSize="{Binding ElementName=PART_DepartmentName, Path=FontSize, Converter={StaticResource departmentsApplyConverter}, ConverterParameter=-4}"/>
+
+                        <TextBlock Text="{Binding Data.Department.Name}" VerticalAlignment="Center" x:Name="PART_DepartmentName"/>
+
+                        <TextBlock Margin="8" IsEnabled="False" VerticalAlignment="Center" 
+                                   Visibility="{Binding Owner.IsDebugView, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
+                                   FontSize="{Binding ElementName=PART_DepartmentName, Path=FontSize, Converter={StaticResource departmentsApplyConverter}, ConverterParameter=-4}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}(departments: {0}, staffing: {1})">
+                                    <Binding Path="Childs.Count"/>
+                                    <Binding Path="Data.Staffing.Count" Converter="{StaticResource departmentsApplyConverter}" ConverterParameter="-1"/> 
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <StackPanel x:Name="PART_EditBox" Margin="4" Visibility="Collapsed" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBox Text="{Binding DepartmentName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 VerticalAlignment="Center" MinWidth="300" Margin="4"/>
+                        <Button VerticalAlignment="Center" Command="{Binding SaveCommand}" Margin="4">
+                            <TextBlock Text="save"/>
+                        </Button>
+                        <Button VerticalAlignment="Center" Command="{Binding CancelCommand}" Margin="4">
+                            <TextBlock Text="cancel"/>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel x:Name="PART_AdditionalButtons" Visibility="Hidden"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center" MinWidth="200" Orientation="Horizontal">
+                        <Button VerticalAlignment="Center" x:Name="PART_ButtonAddChild"
+                                Margin="8"
+                                Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
+                                Command="{Binding AddChildCommand}" 
+                                Visibility="{Binding Owner.CanManageDepartments, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
+                                ToolTip="Add new department"
+                                ToolTipService.IsEnabled="True"
+                                Content="{StaticResource plusContent}">
+                        </Button>
+                        <Button VerticalAlignment="Center" 
+                                Margin="8"
+                                Style="{DynamicResource MaterialDesignFloatingActionDarkButton}"
+                                Command="{Binding DeleteCommand}" 
+                                Visibility="{Binding Owner.CanManageDepartments, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
+                                ToolTip="Remove department"
+                                ToolTipService.IsEnabled="True"
+                                Content="{StaticResource minusContent}">
+                            <Button.LayoutTransform>
+                                <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                            </Button.LayoutTransform>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+
+                <ContentPresenter x:Name="PART_Staffing" Visibility="Collapsed" Grid.Row="1"
+                                  Content="{Binding Data}"
+                                  ContentTemplate="{StaticResource DepartmentStaffingTemplate}"
+                                  MaxWidth="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=ActualWidth, Converter={StaticResource departmentsApplyConverter}, ConverterParameter=-50}"/>
+            </Grid>
+        </Grid>
+        <HierarchicalDataTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="PART_AdditionalButtons" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                <Setter TargetName="PART_AdditionalButtons" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsEditMode}" Value="True">
+                <Setter TargetName="PART_EditBox" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="PART_AdditionalButtons" Property="Visibility" Value="Hidden" />
+                <Setter TargetName="PART_Caption" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Error, Converter={StaticResource departmentsIsNotEmptyStringConverter}}" Value="True">
+                <Setter TargetName="PART_Error" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Owner.IsStaffingVisible}" Value="True">
+                <Setter TargetName="PART_Staffing" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </HierarchicalDataTemplate.Triggers>
+    </HierarchicalDataTemplate>
+
+    <DataTemplate x:Key="DepartmentsTreeViewTemplate" DataType="{x:Type staffing:StaffingViewModel}">
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Setter Property="IsExpanded" Value="True"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </Grid.Resources>
+
+            <!-- Tree -->
+            <TreeView ItemsSource="{Binding Departments}" 
+                      ItemTemplate="{StaticResource recursiveDepartmentTemplate}"
+                      HorizontalContentAlignment="Stretch"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+
+            <!-- Buttons -->            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
+                <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                        Cursor="Hand" Margin="8"
+                        Command="{Binding InsertDepartmentCommand}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Content="{StaticResource plusContent}">
+                </Button>
+                <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}"
+                              Cursor="Hand" Margin="8" 
+                              IsChecked="{Binding IsDebugView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ToolTip="Debug view"
+                              ToolTipService.IsEnabled="True"/>
+                <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}"
+                              Cursor="Hand" Margin="8" 
+                              IsChecked="{Binding IsStaffingVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ToolTip="Staffing visible"
+                              ToolTipService.IsEnabled="True"/>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type staffing:StaffingViewModel}" x:Key="DepartmentsViewTemplate">
+        <Grid>
+            <!-- Show content -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="6"/>
+                    <ColumnDefinition Width="0*" MinWidth="130"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Tree -->
+                <ContentPresenter Margin="16"
+                                  Content="{Binding}"
+                                  ContentTemplate="{StaticResource DepartmentsTreeViewTemplate}"/>
+                
+                <!-- Delete staffing button -->
+                <md:ColorZone HorizontalAlignment="Stretch" VerticalAlignment="Top" Mode="PrimaryDark"
+                              VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                              MinHeight="60" AllowDrop="True"
+                              Visibility="{Binding IsDragMode, Converter={StaticResource departmentsBooleanToVisibilityConverter}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <add:EventToCommand Command="{Binding DeleteDropEmployeeCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="DragOver">
+                            <add:EventToCommand Command="{Binding DeleteDragOverEmployeeCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <StackPanel Orientation="Horizontal">
+                        <ContentPresenter Content="{StaticResource deleteContent}" Margin="8,4"/>
+                        <TextBlock Text="Drop this item for delete" FontSize="18"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </md:ColorZone>
+
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                
+                <!-- Employees -->
+                <ContentPresenter Content="{Binding}" Grid.Column="2"
+                                  ContentTemplate="{StaticResource EmployeesListTemplate}"/>
+
+                <!-- Edit employee -->
+                <ContentPresenter Content="{Binding EmployeeForEdit}" Grid.ColumnSpan="999" Grid.RowSpan="999"
+                                  ContentTemplate="{StaticResource EmployeeEditTemplate}"
+                                  x:Name="PART_EmployeeForEditContentPresenter"
+                                  Visibility="Collapsed"/>
+
+                <!-- Fade -->
+                <Border Background="#99000000" Grid.ColumnSpan="999" Grid.RowSpan="999"
+                        Visibility="{Binding IsLoaded, Converter={StaticResource departmentsReverseBooleanToVisibilityConverter}}"/>
+            </Grid>
+
+            <StackPanel>
+                <!-- Loading part -->
+                <md:ColorZone Mode="Light" Padding="16"
+                              Visibility="{Binding IsLoaded, Converter={StaticResource departmentsReverseBooleanToVisibilityConverter}}">
+                    <WrapPanel Orientation="Horizontal">
+                        <ProgressBar Style="{DynamicResource MaterialDesignCircularProgressBar}" IsIndeterminate="True" VerticalAlignment="Center"/>
+                        <TextBlock Text="Load departments tree..." Margin="8" VerticalAlignment="Center"/>
+                    </WrapPanel>
+                </md:ColorZone>
+
+                <!-- Error -->
+                <md:ColorZone Mode="Dark" Padding="16"
+                              Visibility="{Binding Error, Converter={StaticResource departmentsIsNotEmptyStringToVisibilityConverter}}">
+                    <WrapPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Error, StringFormat={}Error: {0}}" Margin="8" VerticalAlignment="Center"/>
+                    </WrapPanel>
+                </md:ColorZone>
+            </StackPanel>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding EmployeeForEdit.IsEditMode}" Value="True">
+                <Setter TargetName="PART_EmployeeForEditContentPresenter" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+</ResourceDictionary>
