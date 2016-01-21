@@ -38,6 +38,20 @@
         <Setter Property="Opacity" Value="0.6"/>
     </Style>
     
+    <Style x:Key="VacationListItemDelimiterBorderCurrentStyle" TargetType="{x:Type Border}">
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="Width" Value="1"/>
+        <Setter Property="Height" Value="10"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="1" ScaleY="10" CenterY="5"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Opacity" Value="0.6"/>
+    </Style>
+    
     <Style x:Key="VacationListItemPartStyle">
         <Setter Property="xctk:TimelinePanel.Date" Value="{Binding Path=Vacation.Begin}"/>
         <Setter Property="xctk:TimelinePanel.DateEnd">
@@ -103,6 +117,28 @@
             </StackPanel>
         </Grid>
         <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsItGoesOver}" Value="True">
+                <Setter TargetName="listItemPartContent" Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="LightGreen"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="listItemPartContent" Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Color="Green"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="PART_BorderTooltipTextBlock" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="сходил с {0:00}.{1:00}.{2:0000} (на {3} дн.)">
+                            <Binding Path="Vacation.Begin.Day"/>
+                            <Binding Path="Vacation.Begin.Month"/>
+                            <Binding Path="Vacation.Begin.Year"/>
+                            <Binding Path="Vacation.DayCount"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
             <DataTrigger Binding="{Binding Vacation.NotUsed}" Value="True">
                 <Setter TargetName="listItemPartContent" Property="Background">
                     <Setter.Value>
@@ -218,6 +254,7 @@
                 <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=10}"/>
                 <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=11}"/>
                 <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=12}"/>
+                <Border xctk:TimelinePanel.Date="{Binding Owner.CurrentDateTime}" Style="{StaticResource VacationListItemDelimiterBorderCurrentStyle}"/>
 
                 <TextBlock Text="ЯНВАРЬ" 
                            xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=0}"

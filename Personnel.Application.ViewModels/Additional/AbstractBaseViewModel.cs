@@ -34,6 +34,36 @@ namespace Personnel.Application.ViewModels.Additional
         #endregion
     }
 
+    public abstract class NotifyDisposablePropertyChangedBase : NotifyPropertyChangedBase, IDisposable
+    {
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected abstract void DisposeManaged();
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                    DisposeManaged();
+                }
+                disposedValue = true;
+            }
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+        }
+
+        #endregion
+    }
+
     public abstract class AbstractBaseViewModel : NotifyPropertyChangedBase, IDisposable
     {
         public AbstractBaseViewModel()

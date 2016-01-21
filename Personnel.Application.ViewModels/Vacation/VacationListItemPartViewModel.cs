@@ -10,8 +10,13 @@ using System.Windows.Input;
 
 namespace Personnel.Application.ViewModels.Vacation
 {
-    public class VacationListItemPartViewModel : NotifyPropertyChangedBase
+    public class VacationListItemPartViewModel : NotifyDisposablePropertyChangedBase
     {
+        #region Data
+
+        private System.Timers.Timer timer;
+
+        #endregion
         #region Constructor
 
         public VacationListItemPartViewModel(VacationListItemViewModel owner, VacationService.Vacation vacation)
@@ -27,20 +32,24 @@ namespace Personnel.Application.ViewModels.Vacation
             Owner.Owner.PropertyChanged += (_, e) => 
             {
                 if (e.PropertyName == nameof(VacationsViewModel.CanManageVacations))
-                {
-                    RaisePropertyChanged(() => CanManage);
                     UpdateCommands();
-                }
             };
 
             Owner.Owner.Staffing.PropertyChanged += (_, e) =>
             {
                 if (e.PropertyName == nameof(Staffing.StaffingViewModel.Current))
-                { 
-                    RaisePropertyChanged(() => CanManage);
                     UpdateCommands();
-                }
             };
+
+            Vacation.PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName == nameof(Vacation.Agreements))
+                    UpdateCommands();
+            };
+
+            timer = new System.Timers.Timer(1000);
+            timer.Elapsed += (_, __) => Owner.Owner.RunUnderDispatcher(new Action(() => UpdateCommands()));
+            timer.Start();
         }
 
         #endregion
@@ -50,11 +59,9 @@ namespace Personnel.Application.ViewModels.Vacation
         public VacationService.Vacation Vacation { get; private set; }
 
         private bool GetCanManage()
-        {
-            return (Owner.Owner.CanManageVacations || Owner.Owner.Staffing.Current.Id == Vacation.EmployeeId) && !IsDeleted && !IsBusy;
-        }
+            => GetCanManage(Owner.Owner, Vacation) && !IsDeleted && !IsBusy;
 
-        public bool CanManage { get { return GetCanManage(); } }
+        public bool CanManage => GetCanManage();
 
         private bool isBusy = false;
         public bool IsBusy { get { return isBusy; } set { isBusy = value; RaisePropertyChanged(); UpdateCommands(); } }
@@ -65,16 +72,19 @@ namespace Personnel.Application.ViewModels.Vacation
         private string error = string.Empty;
         public string Error { get { return error; } set { error = value; RaisePropertyChanged(); RaisePropertyChanged(() => HasError); UpdateCommands(); } }
 
-        public bool HasError { get { return !string.IsNullOrWhiteSpace(error); } }
+        public bool HasError => !string.IsNullOrWhiteSpace(error);
+
+        public bool IsItGoesOver => GetIsItGoesOver(Vacation);
 
         private void UpdateCommands()
         {
-            removeCommand?.RaiseCanExecuteChanged();
             RaisePropertyChanged(() => CanManage);
+            RaisePropertyChanged(() => IsItGoesOver);
+            removeCommand?.RaiseCanExecuteChanged();
         }
 
         private DelegateCommand removeCommand = null;
-        public ICommand RemoveCommand { get { return removeCommand ?? (removeCommand = new DelegateCommand(o => DeleteAsync(Vacation.Id), o => CanManage && !IsBusy && !IsDeleted)); } }
+        public ICommand RemoveCommand { get { return removeCommand ?? (removeCommand = new DelegateCommand(o => DeleteAsync(Vacation.Id), o => CanManage)); } }
 
         public async void DeleteAsync(long vacationId)
         {
@@ -104,6 +114,34 @@ namespace Personnel.Application.ViewModels.Vacation
             {
                 IsBusy = false;
             }
+        }
+
+        #endregion
+        #region IDisposable
+
+        protected override void DisposeManaged()
+        {
+            if (timer != null)
+            {
+                timer.Stop();
+                timer.Dispose();
+                timer = null;
+            }
+        }
+
+        #endregion
+        #region Static
+
+        private static bool GetIsItGoesOver(VacationService.Vacation vacation) => DateTime.Now > vacation.Begin;
+
+        internal static bool GetCanManage(VacationsViewModel vm, VacationService.Vacation vacation)
+        {
+            var isItMyOwnVacation = vm.Staffing.Current.Id == vacation.EmployeeId;
+            var isAgrrementExists = (vacation.Agreements?.Any() ?? false);
+            var canUserChengeHisOwn = isItMyOwnVacation 
+                && !GetIsItGoesOver(vacation)
+                && !vacation.NotUsed;
+            return !isAgrrementExists && (vm.CanManageVacations || canUserChengeHisOwn);
         }
 
         #endregion

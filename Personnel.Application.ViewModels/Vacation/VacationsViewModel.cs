@@ -359,7 +359,7 @@ namespace Personnel.Application.ViewModels.Vacation
             set { if (selectedVacationForEdit == value) return; selectedVacationForEdit = value; RaisePropertyChanged(); }
         }
 
-        private void RunUnderDispatcher(Delegate a)
+        internal void RunUnderDispatcher(Delegate a)
         {
             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, a);
         }
