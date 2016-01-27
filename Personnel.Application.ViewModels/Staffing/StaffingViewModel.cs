@@ -639,30 +639,31 @@ namespace Personnel.Application.ViewModels.Staffing
                         var existed = departments.AsEnumerable().Traverse(i => i.Childs).FirstOrDefault(i => i.Data.Department.Id == d.Id);
                         if (existed != null)
                         {
+                            existed.Parent?.Childs.Remove(existed);
                             existed.Data.Department.CopyObjectFrom(d);
                             depForUpdate = existed.Data.Department;
                         }
+                        
+                        
+                        var existedParent = departments.AsEnumerable().Traverse(i => i.Childs).FirstOrDefault(i => i.Data.Department.Id == d.ParentId);
+                        if (existedParent != null)
+                        {
+                            var newDep = new DepartmentEditViewModel() { Data = GetStaffingDataForDepartment(d), Parent = existedParent, Owner = this };
+                            var existedChildsInTop = departments.Where(i => i.Data.Department.ParentId == d.Id).ToArray();
+                            foreach (var c in existedChildsInTop)
+                            {
+                                c.Parent?.Childs.Remove(c);
+                                c.Parent = newDep;
+                                newDep.Childs.Add(c);
+                            }
+                            existedParent.Childs.Add(newDep);
+                            depForUpdate = newDep.Data.Department;
+                        }
                         else
                         {
-                            var existedParent = departments.AsEnumerable().Traverse(i => i.Childs).FirstOrDefault(i => i.Data.Department.Id == d.ParentId);
-                            if (existedParent != null)
-                            {
-                                var newDep = new DepartmentEditViewModel() { Data = GetStaffingDataForDepartment(d), Parent = existedParent, Owner = this };
-                                var existedChildsInTop = departments.Where(i => i.Data.Department.ParentId == d.Id);
-                                foreach (var c in existedChildsInTop)
-                                {
-                                    c.Parent = newDep;
-                                    newDep.Childs.Add(c);
-                                }
-                                existedParent.Childs.Add(newDep);
-                                depForUpdate = newDep.Data.Department;
-                            }
-                            else
-                            {
-                                var depVM = new DepartmentEditViewModel() { Data = GetStaffingDataForDepartment(d), Parent = this, Owner = this };
-                                departments.Add(depVM);
-                                depForUpdate = depVM.Data.Department;
-                            }
+                            var depVM = new DepartmentEditViewModel() { Data = GetStaffingDataForDepartment(d), Parent = this, Owner = this };
+                            departments.Add(depVM);
+                            depForUpdate = depVM.Data.Department;
                         }
 
                         if (depForUpdate != null)

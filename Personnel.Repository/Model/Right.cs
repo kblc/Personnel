@@ -45,6 +45,8 @@ namespace Personnel.Repository.Model
         ViewVacation,
         [ResourceDescription("MODEL_RIGHTTYPE_ManageVacation")]
         ManageVacation,
+        [ResourceDescription("MODEL_RIGHTTYPE_ManageVacationFunctionalGroups")]
+        ManageVacationFunctionalGroups,
     }
 
     public partial class RepositoryContext

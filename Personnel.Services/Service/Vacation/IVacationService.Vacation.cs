@@ -38,7 +38,7 @@ namespace Personnel.Services.Service.Vacation
         /// <summary>
         /// Delete vacations
         /// </summary>
-        /// <param name="vacationIds">Identifiers</param>
+        /// <param name="vacationFunctionalGroupIds">Identifiers</param>
         /// <returns>Result info</returns>
         [OperationContract]
         Model.BaseExecutionResult VacationRemoveRange(IEnumerable<long> vacationIds);

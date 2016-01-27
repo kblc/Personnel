@@ -100,7 +100,7 @@ namespace Personnel.Services.Service.Vacation
         /// <summary>
         /// Insert single vacation
         /// </summary>
-        /// <param name="vacation">Vacation</param>
+        /// <param name="vacationFunctionalGroup">Vacation</param>
         /// <returns>Result info</returns>
         public Model.VacationExecutionResult RESTVacationInsert(Model.Vacation vacation) => VacationInsert(vacation);
     }

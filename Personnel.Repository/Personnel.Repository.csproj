@@ -97,7 +97,13 @@
     <Compile Include="Migrations\201512290507004_Migration_AddVacations.Designer.cs">
       <DependentUpon>201512290507004_Migration_AddVacations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601271027408_Migration_AddVacationGroup.cs" />
+    <Compile Include="Migrations\201601271027408_Migration_AddVacationGroup.Designer.cs">
+      <DependentUpon>201601271027408_Migration_AddVacationGroup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\VacationFunctionalGroupEmployee.cs" />
+    <Compile Include="Model\VacationFunctionalGroup.cs" />
     <Compile Include="Model\Photo.cs" />
     <Compile Include="Model\History.cs" />
     <Compile Include="Model\HistoryAbstractBase.cs" />
@@ -152,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512290507004_Migration_AddVacations.resx">
       <DependentUpon>201512290507004_Migration_AddVacations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601271027408_Migration_AddVacationGroup.resx">
+      <DependentUpon>201601271027408_Migration_AddVacationGroup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

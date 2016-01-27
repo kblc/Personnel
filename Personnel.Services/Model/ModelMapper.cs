@@ -195,6 +195,15 @@ namespace Personnel.Services.Model
                 .ForMember(dst => dst.VacationId, e => e.MapFrom(a => a.Id));
 
             #endregion
+            #region VacationFunctionalGroup
+
+            AutoMapper.Mapper.CreateMap<Repository.Model.VacationFunctionalGroup, Model.VacationFunctionalGroup>()
+                .ForMember(dst => dst.Id, e => e.MapFrom(a => a.VacationFunctionalGroupId));
+
+            AutoMapper.Mapper.CreateMap<Model.VacationFunctionalGroup, Repository.Model.VacationFunctionalGroup>()
+                .ForMember(dst => dst.VacationFunctionalGroupId, e => e.MapFrom(a => a.Id));
+
+            #endregion
 
             isInited = true;
         }
