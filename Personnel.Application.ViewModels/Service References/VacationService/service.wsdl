@@ -115,6 +115,234 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationFunctionalGroupsGet_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationFunctionalGroupsGet_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationFunctionalGroupGet_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationFunctionalGroupGet_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationFunctionalGroupRemove_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationFunctionalGroupRemove_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationFunctionalGroupRemoveRange_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationFunctionalGroupRemoveRange_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationFunctionalGroupUpdate_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationFunctionalGroupUpdate_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationFunctionalGroupInsert_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationFunctionalGroupInsert_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsp:Policy wsu:Id="WSHttpBinding_IVacationService_VacationAgreementRemove_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
@@ -620,6 +848,42 @@
   <wsdl:message name="IVacationService_ChangeLanguage_InputMessage">
     <wsdl:part name="parameters" element="tns:ChangeLanguage" />
   </wsdl:message>
+  <wsdl:message name="IVacationService_VacationFunctionalGroupsGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:VacationFunctionalGroupsGet" />
+  </wsdl:message>
+  <wsdl:message name="IVacationService_VacationFunctionalGroupsGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VacationFunctionalGroupsGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IVacationService_VacationFunctionalGroupGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:VacationFunctionalGroupGet" />
+  </wsdl:message>
+  <wsdl:message name="IVacationService_VacationFunctionalGroupGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VacationFunctionalGroupGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IVacationService_VacationFunctionalGroupRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:VacationFunctionalGroupRemove" />
+  </wsdl:message>
+  <wsdl:message name="IVacationService_VacationFunctionalGroupRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VacationFunctionalGroupRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IVacationService_VacationFunctionalGroupRemoveRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:VacationFunctionalGroupRemoveRange" />
+  </wsdl:message>
+  <wsdl:message name="IVacationService_VacationFunctionalGroupRemoveRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VacationFunctionalGroupRemoveRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IVacationService_VacationFunctionalGroupUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:VacationFunctionalGroupUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IVacationService_VacationFunctionalGroupUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VacationFunctionalGroupUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IVacationService_VacationFunctionalGroupInsert_InputMessage">
+    <wsdl:part name="parameters" element="tns:VacationFunctionalGroupInsert" />
+  </wsdl:message>
+  <wsdl:message name="IVacationService_VacationFunctionalGroupInsert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VacationFunctionalGroupInsertResponse" />
+  </wsdl:message>
   <wsdl:message name="IVacationService_VacationAgreementRemove_InputMessage">
     <wsdl:part name="parameters" element="tns:VacationAgreementRemove" />
   </wsdl:message>
@@ -697,6 +961,42 @@
   </wsdl:message>
   <wsdl:message name="IVacationService_GetLevels_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetLevelsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IVacationServiceREST_RESTVacationFunctionalGroupsGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTVacationFunctionalGroupsGet" />
+  </wsdl:message>
+  <wsdl:message name="IVacationServiceREST_RESTVacationFunctionalGroupsGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTVacationFunctionalGroupsGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IVacationServiceREST_RESTVacationFunctionalGroupGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTVacationFunctionalGroupGet" />
+  </wsdl:message>
+  <wsdl:message name="IVacationServiceREST_RESTVacationFunctionalGroupGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTVacationFunctionalGroupGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IVacationServiceREST_RESTVacationFunctionalGroupRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTVacationFunctionalGroupRemove" />
+  </wsdl:message>
+  <wsdl:message name="IVacationServiceREST_RESTVacationFunctionalGroupRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTVacationFunctionalGroupRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IVacationServiceREST_RESTVacationFunctionalGroupRemoveRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTVacationFunctionalGroupRemoveRange" />
+  </wsdl:message>
+  <wsdl:message name="IVacationServiceREST_RESTVacationFunctionalGroupRemoveRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTVacationFunctionalGroupRemoveRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IVacationServiceREST_RESTVacationFunctionalGroupUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTVacationFunctionalGroupUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IVacationServiceREST_RESTVacationFunctionalGroupUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTVacationFunctionalGroupUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IVacationServiceREST_RESTVacationFunctionalGroupInsert_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTVacationFunctionalGroupInsert" />
+  </wsdl:message>
+  <wsdl:message name="IVacationServiceREST_RESTVacationFunctionalGroupInsert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTVacationFunctionalGroupInsertResponse" />
   </wsdl:message>
   <wsdl:message name="IVacationServiceREST_RESTVacationAgreementRemove_InputMessage">
     <wsdl:part name="parameters" element="tns:RESTVacationAgreementRemove" />
@@ -780,6 +1080,30 @@
     <wsdl:operation name="ChangeLanguage">
       <wsdl:input wsaw:Action="http://tempuri.org/IBaseService/ChangeLanguage" message="tns:IVacationService_ChangeLanguage_InputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="VacationFunctionalGroupsGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVacationService/VacationFunctionalGroupsGet" message="tns:IVacationService_VacationFunctionalGroupsGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVacationService/VacationFunctionalGroupsGetResponse" message="tns:IVacationService_VacationFunctionalGroupsGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VacationFunctionalGroupGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVacationService/VacationFunctionalGroupGet" message="tns:IVacationService_VacationFunctionalGroupGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVacationService/VacationFunctionalGroupGetResponse" message="tns:IVacationService_VacationFunctionalGroupGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VacationFunctionalGroupRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVacationService/VacationFunctionalGroupRemove" message="tns:IVacationService_VacationFunctionalGroupRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVacationService/VacationFunctionalGroupRemoveResponse" message="tns:IVacationService_VacationFunctionalGroupRemove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VacationFunctionalGroupRemoveRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVacationService/VacationFunctionalGroupRemoveRange" message="tns:IVacationService_VacationFunctionalGroupRemoveRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVacationService/VacationFunctionalGroupRemoveRangeResponse" message="tns:IVacationService_VacationFunctionalGroupRemoveRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VacationFunctionalGroupUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVacationService/VacationFunctionalGroupUpdate" message="tns:IVacationService_VacationFunctionalGroupUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVacationService/VacationFunctionalGroupUpdateResponse" message="tns:IVacationService_VacationFunctionalGroupUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VacationFunctionalGroupInsert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVacationService/VacationFunctionalGroupInsert" message="tns:IVacationService_VacationFunctionalGroupInsert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVacationService/VacationFunctionalGroupInsertResponse" message="tns:IVacationService_VacationFunctionalGroupInsert_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="VacationAgreementRemove">
       <wsdl:input wsaw:Action="http://tempuri.org/IVacationService/VacationAgreementRemove" message="tns:IVacationService_VacationAgreementRemove_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IVacationService/VacationAgreementRemoveResponse" message="tns:IVacationService_VacationAgreementRemove_OutputMessage" />
@@ -836,6 +1160,30 @@
   <wsdl:portType name="IVacationServiceREST">
     <wsdl:operation name="ChangeLanguage">
       <wsdl:input wsaw:Action="http://tempuri.org/IBaseService/ChangeLanguage" message="tns:IVacationService_ChangeLanguage_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTVacationFunctionalGroupsGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupsGet" message="tns:IVacationServiceREST_RESTVacationFunctionalGroupsGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupsGetResponse" message="tns:IVacationServiceREST_RESTVacationFunctionalGroupsGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTVacationFunctionalGroupGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupGet" message="tns:IVacationServiceREST_RESTVacationFunctionalGroupGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupGetResponse" message="tns:IVacationServiceREST_RESTVacationFunctionalGroupGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTVacationFunctionalGroupRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupRemove" message="tns:IVacationServiceREST_RESTVacationFunctionalGroupRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupRemoveResponse" message="tns:IVacationServiceREST_RESTVacationFunctionalGroupRemove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTVacationFunctionalGroupRemoveRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupRemoveRange" message="tns:IVacationServiceREST_RESTVacationFunctionalGroupRemoveRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupRemoveRangeResponse" message="tns:IVacationServiceREST_RESTVacationFunctionalGroupRemoveRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTVacationFunctionalGroupUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupUpdate" message="tns:IVacationServiceREST_RESTVacationFunctionalGroupUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupUpdateResponse" message="tns:IVacationServiceREST_RESTVacationFunctionalGroupUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTVacationFunctionalGroupInsert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupInsert" message="tns:IVacationServiceREST_RESTVacationFunctionalGroupInsert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupInsertResponse" message="tns:IVacationServiceREST_RESTVacationFunctionalGroupInsert_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="RESTVacationAgreementRemove">
       <wsdl:input wsaw:Action="http://tempuri.org/IVacationServiceREST/RESTVacationAgreementRemove" message="tns:IVacationServiceREST_RESTVacationAgreementRemove_InputMessage" />
@@ -899,6 +1247,72 @@
         <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_ChangeLanguage_Input_policy" />
         <soap12:body use="literal" />
       </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="VacationFunctionalGroupsGet">
+      <soap12:operation soapAction="http://tempuri.org/IVacationService/VacationFunctionalGroupsGet" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_VacationFunctionalGroupsGet_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_VacationFunctionalGroupsGet_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VacationFunctionalGroupGet">
+      <soap12:operation soapAction="http://tempuri.org/IVacationService/VacationFunctionalGroupGet" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_VacationFunctionalGroupGet_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_VacationFunctionalGroupGet_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VacationFunctionalGroupRemove">
+      <soap12:operation soapAction="http://tempuri.org/IVacationService/VacationFunctionalGroupRemove" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_VacationFunctionalGroupRemove_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_VacationFunctionalGroupRemove_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VacationFunctionalGroupRemoveRange">
+      <soap12:operation soapAction="http://tempuri.org/IVacationService/VacationFunctionalGroupRemoveRange" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_VacationFunctionalGroupRemoveRange_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_VacationFunctionalGroupRemoveRange_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VacationFunctionalGroupUpdate">
+      <soap12:operation soapAction="http://tempuri.org/IVacationService/VacationFunctionalGroupUpdate" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_VacationFunctionalGroupUpdate_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_VacationFunctionalGroupUpdate_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VacationFunctionalGroupInsert">
+      <soap12:operation soapAction="http://tempuri.org/IVacationService/VacationFunctionalGroupInsert" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_VacationFunctionalGroupInsert_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IVacationService_VacationFunctionalGroupInsert_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="VacationAgreementRemove">
       <soap12:operation soapAction="http://tempuri.org/IVacationService/VacationAgreementRemove" style="document" />

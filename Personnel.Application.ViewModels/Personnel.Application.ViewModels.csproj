@@ -227,6 +227,12 @@
     <None Include="Service References\VacationService\Personnel.Application.ViewModels.VacationService.VacationBalanceResults.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\VacationService\Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VacationService\Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\VacationService\Personnel.Application.ViewModels.VacationService.VacationLevelResults.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

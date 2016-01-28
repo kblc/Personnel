@@ -17,6 +17,8 @@ namespace Personnel.Application.ViewModels.VacationService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Result", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
     [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.VacationService.BaseExecutionResultOfVacationFunctionalGroup3XPrIsxh))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.VacationService.BaseExecutionResultOfVacationAgreement3XPrIsxh))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.VacationService.VacationAgreementResult))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.VacationService.BaseExecutionResultsOfVacationBalance3XPrIsxh))]
@@ -29,6 +31,8 @@ namespace Personnel.Application.ViewModels.VacationService {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.VacationService.VacationResult))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.VacationService.BaseExecutionResultsOfVacationLevel3XPrIsxh))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.VacationService.VacationLevelResults))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.VacationService.BaseExecutionResultsOfVacationFunctionalGroup3XPrIsxh))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResults))]
     public partial class Result : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
@@ -68,6 +72,37 @@ namespace Personnel.Application.ViewModels.VacationService {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseExecutionResultOfVacationFunctionalGroup3XPrIsxh", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult))]
+    public partial class BaseExecutionResultOfVacationFunctionalGroup3XPrIsxh : Personnel.Application.ViewModels.VacationService.Result {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup ValueField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup Value {
+            get {
+                return this.ValueField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ValueField, value) != true)) {
+                    this.ValueField = value;
+                    this.RaisePropertyChanged("Value");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="VacationFunctionalGroupResult", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    public partial class VacationFunctionalGroupResult : Personnel.Application.ViewModels.VacationService.BaseExecutionResultOfVacationFunctionalGroup3XPrIsxh {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -254,6 +289,114 @@ namespace Personnel.Application.ViewModels.VacationService {
     [System.Runtime.Serialization.DataContractAttribute(Name="VacationLevelResults", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
     [System.SerializableAttribute()]
     public partial class VacationLevelResults : Personnel.Application.ViewModels.VacationService.BaseExecutionResultsOfVacationLevel3XPrIsxh {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseExecutionResultsOfVacationFunctionalGroup3XPrIsxh", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResults))]
+    public partial class BaseExecutionResultsOfVacationFunctionalGroup3XPrIsxh : Personnel.Application.ViewModels.VacationService.Result {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup[] ValuesField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup[] Values {
+            get {
+                return this.ValuesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ValuesField, value) != true)) {
+                    this.ValuesField = value;
+                    this.RaisePropertyChanged("Values");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="VacationFunctionalGroupResults", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    public partial class VacationFunctionalGroupResults : Personnel.Application.ViewModels.VacationService.BaseExecutionResultsOfVacationFunctionalGroup3XPrIsxh {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="VacationFunctionalGroup", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    public partial class VacationFunctionalGroup : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long[] EmployeIdsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long[] EmployeIds {
+            get {
+                return this.EmployeIdsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.EmployeIdsField, value) != true)) {
+                    this.EmployeIdsField = value;
+                    this.RaisePropertyChanged("EmployeIds");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -686,6 +829,42 @@ namespace Personnel.Application.ViewModels.VacationService {
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IBaseService/ChangeLanguage")]
         System.Threading.Tasks.Task ChangeLanguageAsync(string codename);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationFunctionalGroupsGet", ReplyAction="http://tempuri.org/IVacationService/VacationFunctionalGroupsGetResponse")]
+        Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResults VacationFunctionalGroupsGet();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationFunctionalGroupsGet", ReplyAction="http://tempuri.org/IVacationService/VacationFunctionalGroupsGetResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResults> VacationFunctionalGroupsGetAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationFunctionalGroupGet", ReplyAction="http://tempuri.org/IVacationService/VacationFunctionalGroupGetResponse")]
+        Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult VacationFunctionalGroupGet(long vacationFunctionalGroupId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationFunctionalGroupGet", ReplyAction="http://tempuri.org/IVacationService/VacationFunctionalGroupGetResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult> VacationFunctionalGroupGetAsync(long vacationFunctionalGroupId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationFunctionalGroupRemove", ReplyAction="http://tempuri.org/IVacationService/VacationFunctionalGroupRemoveResponse")]
+        Personnel.Application.ViewModels.VacationService.Result VacationFunctionalGroupRemove(long vacationFunctionalGroupId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationFunctionalGroupRemove", ReplyAction="http://tempuri.org/IVacationService/VacationFunctionalGroupRemoveResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.Result> VacationFunctionalGroupRemoveAsync(long vacationFunctionalGroupId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationFunctionalGroupRemoveRange", ReplyAction="http://tempuri.org/IVacationService/VacationFunctionalGroupRemoveRangeResponse")]
+        Personnel.Application.ViewModels.VacationService.Result VacationFunctionalGroupRemoveRange(long[] vacationFunctionalGroupIds);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationFunctionalGroupRemoveRange", ReplyAction="http://tempuri.org/IVacationService/VacationFunctionalGroupRemoveRangeResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.Result> VacationFunctionalGroupRemoveRangeAsync(long[] vacationFunctionalGroupIds);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationFunctionalGroupUpdate", ReplyAction="http://tempuri.org/IVacationService/VacationFunctionalGroupUpdateResponse")]
+        Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult VacationFunctionalGroupUpdate(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationFunctionalGroupUpdate", ReplyAction="http://tempuri.org/IVacationService/VacationFunctionalGroupUpdateResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult> VacationFunctionalGroupUpdateAsync(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationFunctionalGroupInsert", ReplyAction="http://tempuri.org/IVacationService/VacationFunctionalGroupInsertResponse")]
+        Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult VacationFunctionalGroupInsert(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationFunctionalGroupInsert", ReplyAction="http://tempuri.org/IVacationService/VacationFunctionalGroupInsertResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult> VacationFunctionalGroupInsertAsync(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationService/VacationAgreementRemove", ReplyAction="http://tempuri.org/IVacationService/VacationAgreementRemoveResponse")]
         Personnel.Application.ViewModels.VacationService.Result VacationAgreementRemove(long vacationAgreementId);
         
@@ -798,6 +977,54 @@ namespace Personnel.Application.ViewModels.VacationService {
         
         public System.Threading.Tasks.Task ChangeLanguageAsync(string codename) {
             return base.Channel.ChangeLanguageAsync(codename);
+        }
+        
+        public Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResults VacationFunctionalGroupsGet() {
+            return base.Channel.VacationFunctionalGroupsGet();
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResults> VacationFunctionalGroupsGetAsync() {
+            return base.Channel.VacationFunctionalGroupsGetAsync();
+        }
+        
+        public Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult VacationFunctionalGroupGet(long vacationFunctionalGroupId) {
+            return base.Channel.VacationFunctionalGroupGet(vacationFunctionalGroupId);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult> VacationFunctionalGroupGetAsync(long vacationFunctionalGroupId) {
+            return base.Channel.VacationFunctionalGroupGetAsync(vacationFunctionalGroupId);
+        }
+        
+        public Personnel.Application.ViewModels.VacationService.Result VacationFunctionalGroupRemove(long vacationFunctionalGroupId) {
+            return base.Channel.VacationFunctionalGroupRemove(vacationFunctionalGroupId);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.Result> VacationFunctionalGroupRemoveAsync(long vacationFunctionalGroupId) {
+            return base.Channel.VacationFunctionalGroupRemoveAsync(vacationFunctionalGroupId);
+        }
+        
+        public Personnel.Application.ViewModels.VacationService.Result VacationFunctionalGroupRemoveRange(long[] vacationFunctionalGroupIds) {
+            return base.Channel.VacationFunctionalGroupRemoveRange(vacationFunctionalGroupIds);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.Result> VacationFunctionalGroupRemoveRangeAsync(long[] vacationFunctionalGroupIds) {
+            return base.Channel.VacationFunctionalGroupRemoveRangeAsync(vacationFunctionalGroupIds);
+        }
+        
+        public Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult VacationFunctionalGroupUpdate(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup) {
+            return base.Channel.VacationFunctionalGroupUpdate(vacationFunctionalGroup);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult> VacationFunctionalGroupUpdateAsync(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup) {
+            return base.Channel.VacationFunctionalGroupUpdateAsync(vacationFunctionalGroup);
+        }
+        
+        public Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult VacationFunctionalGroupInsert(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup) {
+            return base.Channel.VacationFunctionalGroupInsert(vacationFunctionalGroup);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult> VacationFunctionalGroupInsertAsync(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup) {
+            return base.Channel.VacationFunctionalGroupInsertAsync(vacationFunctionalGroup);
         }
         
         public Personnel.Application.ViewModels.VacationService.Result VacationAgreementRemove(long vacationAgreementId) {
@@ -915,6 +1142,50 @@ namespace Personnel.Application.ViewModels.VacationService {
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IBaseService/ChangeLanguage")]
         System.Threading.Tasks.Task ChangeLanguageAsync(string codename);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupsGet", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupsGetResponse")]
+        Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResults RESTVacationFunctionalGroupsGet();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupsGet", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupsGetResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResults> RESTVacationFunctionalGroupsGetAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupGet", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupGetResponse")]
+        Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult RESTVacationFunctionalGroupGet(string vacationFunctionalGroupId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupGet", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupGetResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult> RESTVacationFunctionalGroupGetAsync(string vacationFunctionalGroupId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupRemove", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupRemoveResponse" +
+            "")]
+        Personnel.Application.ViewModels.VacationService.Result RESTVacationFunctionalGroupRemove(string vacationFunctionalGroupId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupRemove", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupRemoveResponse" +
+            "")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.Result> RESTVacationFunctionalGroupRemoveAsync(string vacationFunctionalGroupId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupRemoveRange", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupRemoveRangeRes" +
+            "ponse")]
+        Personnel.Application.ViewModels.VacationService.Result RESTVacationFunctionalGroupRemoveRange(string[] vacationFunctionalGroupIds);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupRemoveRange", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupRemoveRangeRes" +
+            "ponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.Result> RESTVacationFunctionalGroupRemoveRangeAsync(string[] vacationFunctionalGroupIds);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupUpdate", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupUpdateResponse" +
+            "")]
+        Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult RESTVacationFunctionalGroupUpdate(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupUpdate", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupUpdateResponse" +
+            "")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult> RESTVacationFunctionalGroupUpdateAsync(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupInsert", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupInsertResponse" +
+            "")]
+        Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult RESTVacationFunctionalGroupInsert(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupInsert", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationFunctionalGroupInsertResponse" +
+            "")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult> RESTVacationFunctionalGroupInsertAsync(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVacationServiceREST/RESTVacationAgreementRemove", ReplyAction="http://tempuri.org/IVacationServiceREST/RESTVacationAgreementRemoveResponse")]
         Personnel.Application.ViewModels.VacationService.Result RESTVacationAgreementRemove(string vacationAgreementId);
         
@@ -1029,6 +1300,54 @@ namespace Personnel.Application.ViewModels.VacationService {
         
         public System.Threading.Tasks.Task ChangeLanguageAsync(string codename) {
             return base.Channel.ChangeLanguageAsync(codename);
+        }
+        
+        public Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResults RESTVacationFunctionalGroupsGet() {
+            return base.Channel.RESTVacationFunctionalGroupsGet();
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResults> RESTVacationFunctionalGroupsGetAsync() {
+            return base.Channel.RESTVacationFunctionalGroupsGetAsync();
+        }
+        
+        public Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult RESTVacationFunctionalGroupGet(string vacationFunctionalGroupId) {
+            return base.Channel.RESTVacationFunctionalGroupGet(vacationFunctionalGroupId);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult> RESTVacationFunctionalGroupGetAsync(string vacationFunctionalGroupId) {
+            return base.Channel.RESTVacationFunctionalGroupGetAsync(vacationFunctionalGroupId);
+        }
+        
+        public Personnel.Application.ViewModels.VacationService.Result RESTVacationFunctionalGroupRemove(string vacationFunctionalGroupId) {
+            return base.Channel.RESTVacationFunctionalGroupRemove(vacationFunctionalGroupId);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.Result> RESTVacationFunctionalGroupRemoveAsync(string vacationFunctionalGroupId) {
+            return base.Channel.RESTVacationFunctionalGroupRemoveAsync(vacationFunctionalGroupId);
+        }
+        
+        public Personnel.Application.ViewModels.VacationService.Result RESTVacationFunctionalGroupRemoveRange(string[] vacationFunctionalGroupIds) {
+            return base.Channel.RESTVacationFunctionalGroupRemoveRange(vacationFunctionalGroupIds);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.Result> RESTVacationFunctionalGroupRemoveRangeAsync(string[] vacationFunctionalGroupIds) {
+            return base.Channel.RESTVacationFunctionalGroupRemoveRangeAsync(vacationFunctionalGroupIds);
+        }
+        
+        public Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult RESTVacationFunctionalGroupUpdate(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup) {
+            return base.Channel.RESTVacationFunctionalGroupUpdate(vacationFunctionalGroup);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult> RESTVacationFunctionalGroupUpdateAsync(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup) {
+            return base.Channel.RESTVacationFunctionalGroupUpdateAsync(vacationFunctionalGroup);
+        }
+        
+        public Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult RESTVacationFunctionalGroupInsert(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup) {
+            return base.Channel.RESTVacationFunctionalGroupInsert(vacationFunctionalGroup);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.VacationService.VacationFunctionalGroupResult> RESTVacationFunctionalGroupInsertAsync(Personnel.Application.ViewModels.VacationService.VacationFunctionalGroup vacationFunctionalGroup) {
+            return base.Channel.RESTVacationFunctionalGroupInsertAsync(vacationFunctionalGroup);
         }
         
         public Personnel.Application.ViewModels.VacationService.Result RESTVacationAgreementRemove(string vacationAgreementId) {
