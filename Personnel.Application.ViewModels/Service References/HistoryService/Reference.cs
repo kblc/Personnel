@@ -223,6 +223,9 @@ namespace Personnel.Application.ViewModels.HistoryService {
         private Personnel.Application.ViewModels.HistoryService.VacationBalance[] VacationBalanceField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Personnel.Application.ViewModels.HistoryService.VacationFunctionalGroup[] VacationFunctionalGroupField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private Personnel.Application.ViewModels.HistoryService.VacationLevel[] VacationLevelField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -366,6 +369,19 @@ namespace Personnel.Application.ViewModels.HistoryService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public Personnel.Application.ViewModels.HistoryService.VacationFunctionalGroup[] VacationFunctionalGroup {
+            get {
+                return this.VacationFunctionalGroupField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.VacationFunctionalGroupField, value) != true)) {
+                    this.VacationFunctionalGroupField = value;
+                    this.RaisePropertyChanged("VacationFunctionalGroup");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public Personnel.Application.ViewModels.HistoryService.VacationLevel[] VacationLevel {
             get {
                 return this.VacationLevelField;
@@ -426,6 +442,9 @@ namespace Personnel.Application.ViewModels.HistoryService {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long[] VacationBalanceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long[] VacationFunctionalGroupField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long[] VacationLevelField;
@@ -566,6 +585,19 @@ namespace Personnel.Application.ViewModels.HistoryService {
                 if ((object.ReferenceEquals(this.VacationBalanceField, value) != true)) {
                     this.VacationBalanceField = value;
                     this.RaisePropertyChanged("VacationBalance");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long[] VacationFunctionalGroup {
+            get {
+                return this.VacationFunctionalGroupField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.VacationFunctionalGroupField, value) != true)) {
+                    this.VacationFunctionalGroupField = value;
+                    this.RaisePropertyChanged("VacationFunctionalGroup");
                 }
             }
         }
@@ -1657,6 +1689,83 @@ namespace Personnel.Application.ViewModels.HistoryService {
                 if ((this.UpdatedField.Equals(value) != true)) {
                     this.UpdatedField = value;
                     this.RaisePropertyChanged("Updated");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="VacationFunctionalGroup", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    public partial class VacationFunctionalGroup : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long[] EmployeIdsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long[] EmployeIds {
+            get {
+                return this.EmployeIdsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.EmployeIdsField, value) != true)) {
+                    this.EmployeIdsField = value;
+                    this.RaisePropertyChanged("EmployeIds");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
                 }
             }
         }

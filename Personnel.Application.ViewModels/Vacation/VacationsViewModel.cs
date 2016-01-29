@@ -37,6 +37,9 @@ namespace Personnel.Application.ViewModels.Vacation
         private NotifyCollection<VacationListItemViewModel> employeeVacations = new NotifyCollection<VacationListItemViewModel>();
         public IReadOnlyNotifyCollection<VacationListItemViewModel> EmployeeVacations => employeeVacations;
 
+        private NotifyCollection<VacationService.VacationFunctionalGroup> vacationFunctionalGroups = new NotifyCollection<VacationService.VacationFunctionalGroup>();
+        public IReadOnlyNotifyCollection<VacationService.VacationFunctionalGroup> VacationFunctionalGroups => vacationFunctionalGroups;
+
         #region Notifications
 
         public static readonly DependencyProperty NotificationsProperty = DependencyProperty.Register(nameof(Notifications), typeof(Notifications.NotificationsViewModel),
@@ -374,6 +377,7 @@ namespace Personnel.Application.ViewModels.Vacation
             worker.OnVacationLevelChanged += (s,e) => RunUnderDispatcher(new Action(() => OnWorkerVacationLevelChanged(s, e)));
             worker.OnVacationBalanceChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationBalanceChanged(s, e)));
             worker.OnVacationChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationChanged(s, e)));
+            worker.OnVacationFunctionalGroupChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationFunctionalGroupChanged(s, e)));
             CanManageVacations = GetCanManageVacationsProperty();
             Year = DateTime.Now.Year;
             ReloadEmployeeVacations();
@@ -496,6 +500,42 @@ namespace Personnel.Application.ViewModels.Vacation
             OnVacationChanged?.Invoke(this, e);
         }
 
+        private void OnWorkerVacationFunctionalGroupChanged(object sender, ListItemsEventArgs<VacationService.VacationFunctionalGroup> e)
+        {
+            if (new[] { ChangeAction.Add, ChangeAction.Change }.Contains(e.Action))
+            {
+                foreach (var d in e.Items)
+                {
+                    if (d.Id != 0)
+                    {
+                        var existedVacationFunctionalGroup = vacationFunctionalGroups.FirstOrDefault(l => l.Id == d.Id);
+                        if (existedVacationFunctionalGroup != null)
+                        {
+                            existedVacationFunctionalGroup.CopyObjectFrom(d);
+                        }
+                        else
+                        {
+                            vacationFunctionalGroups.Add(d);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (var d in e.Items)
+                {
+                    if (d.Id != 0)
+                    {
+                        var existedVacationFunctionalGroup = vacationFunctionalGroups.FirstOrDefault(l => l.Id == d.Id);
+                        if (existedVacationFunctionalGroup != null)
+                            vacationFunctionalGroups.Remove(existedVacationFunctionalGroup);
+                    }
+                }
+            }
+
+            OnVacationFunctionalGroupChanged?.Invoke(this, e);
+        }
+
         private void RaiseOnIsLoadedChanged(bool value)
         {
             RunUnderDispatcher(new Action(() => OnIsLoadedChanged?.Invoke(this, value)));
@@ -524,6 +564,7 @@ namespace Personnel.Application.ViewModels.Vacation
         public event EventHandler<ListItemsEventArgs<VacationService.VacationLevel>> OnVacationLevelChanged;
         public event EventHandler<ListItemsEventArgs<VacationService.VacationBalance>> OnVacationBalanceChanged;
         public event EventHandler<ListItemsEventArgs<VacationService.Vacation>> OnVacationChanged;
+        public event EventHandler<ListItemsEventArgs<VacationService.VacationFunctionalGroup>> OnVacationFunctionalGroupChanged;
 
         #region INotifyPropertyChanged
 

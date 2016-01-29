@@ -98,6 +98,12 @@ namespace Personnel.Services.Model
         [RepositoryResolving(typeof(Repository.Model.VacationLevel))]
         public VacationLevel[] VacationLevel { get; set; }
 
+        /// <summary>
+        /// Vacation functional group
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        [RepositoryResolving(typeof(Repository.Model.VacationFunctionalGroup))]
+        public VacationFunctionalGroup[] VacationFunctionalGroup { get; set; }
     }
 
     [DataContract]
@@ -179,6 +185,13 @@ namespace Personnel.Services.Model
         [DataMember(IsRequired = false)]
         [RepositoryResolving(typeof(Repository.Model.VacationLevel), typeof(long))]
         public long[] VacationLevel { get; set; }
+
+        /// <summary>
+        /// Vacation functional group
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        [RepositoryResolving(typeof(Repository.Model.VacationFunctionalGroup), typeof(long))]
+        public long[] VacationFunctionalGroup { get; set; }
     }
 
     /// <summary>

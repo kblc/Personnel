@@ -54,6 +54,7 @@
       <xs:element minOccurs="0" name="Vacation" nillable="true" type="tns:ArrayOfVacation" />
       <xs:element minOccurs="0" name="VacationAgreement" nillable="true" type="tns:ArrayOfVacationAgreement" />
       <xs:element minOccurs="0" name="VacationBalance" nillable="true" type="tns:ArrayOfVacationBalance" />
+      <xs:element minOccurs="0" name="VacationFunctionalGroup" nillable="true" type="tns:ArrayOfVacationFunctionalGroup" />
       <xs:element minOccurs="0" name="VacationLevel" nillable="true" type="tns:ArrayOfVacationLevel" />
     </xs:sequence>
   </xs:complexType>
@@ -253,6 +254,20 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="VacationBalance" nillable="true" type="tns:VacationBalance" />
+  <xs:complexType name="ArrayOfVacationFunctionalGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VacationFunctionalGroup" nillable="true" type="tns:VacationFunctionalGroup" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVacationFunctionalGroup" nillable="true" type="tns:ArrayOfVacationFunctionalGroup" />
+  <xs:complexType name="VacationFunctionalGroup">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeIds" nillable="true" type="q1:ArrayOflong" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VacationFunctionalGroup" nillable="true" type="tns:VacationFunctionalGroup" />
   <xs:complexType name="ArrayOfVacationLevel">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="VacationLevel" nillable="true" type="tns:VacationLevel" />
@@ -269,17 +284,18 @@
   <xs:element name="VacationLevel" nillable="true" type="tns:VacationLevel" />
   <xs:complexType name="HistoryRemoveInfo">
     <xs:sequence>
-      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Departments" nillable="true" type="q1:ArrayOflong" />
-      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeeLogins" nillable="true" type="q2:ArrayOflong" />
-      <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeePhotos" nillable="true" type="q3:ArrayOfguid" />
-      <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeeRights" nillable="true" type="q4:ArrayOflong" />
-      <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Employees" nillable="true" type="q5:ArrayOflong" />
-      <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="File" nillable="true" type="q6:ArrayOflong" />
-      <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Stuffing" nillable="true" type="q7:ArrayOflong" />
-      <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Vacation" nillable="true" type="q8:ArrayOflong" />
-      <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VacationAgreement" nillable="true" type="q9:ArrayOflong" />
-      <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VacationBalance" nillable="true" type="q10:ArrayOflong" />
-      <xs:element xmlns:q11="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VacationLevel" nillable="true" type="q11:ArrayOflong" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Departments" nillable="true" type="q2:ArrayOflong" />
+      <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeeLogins" nillable="true" type="q3:ArrayOflong" />
+      <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeePhotos" nillable="true" type="q4:ArrayOfguid" />
+      <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeeRights" nillable="true" type="q5:ArrayOflong" />
+      <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Employees" nillable="true" type="q6:ArrayOflong" />
+      <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="File" nillable="true" type="q7:ArrayOflong" />
+      <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Stuffing" nillable="true" type="q8:ArrayOflong" />
+      <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Vacation" nillable="true" type="q9:ArrayOflong" />
+      <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VacationAgreement" nillable="true" type="q10:ArrayOflong" />
+      <xs:element xmlns:q11="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VacationBalance" nillable="true" type="q11:ArrayOflong" />
+      <xs:element xmlns:q12="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VacationFunctionalGroup" nillable="true" type="q12:ArrayOflong" />
+      <xs:element xmlns:q13="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VacationLevel" nillable="true" type="q13:ArrayOflong" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="HistoryRemoveInfo" nillable="true" type="tns:HistoryRemoveInfo" />

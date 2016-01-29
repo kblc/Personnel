@@ -14,6 +14,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
         private readonly List<VacationService.Vacation> Vacations = new List<VacationService.Vacation>();
         private readonly List<VacationService.VacationBalance> VacationBalances = new List<VacationService.VacationBalance>();
         private readonly List<VacationService.VacationLevel> VacationLevels = new List<VacationService.VacationLevel>();
+        private readonly List<VacationService.VacationFunctionalGroup> VacationFunctionalGroups = new List<VacationService.VacationFunctionalGroup>();
 
         public void setPeriod(DateTime? from, DateTime? to)
         {
@@ -49,6 +50,8 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                 return (IList<T>)VacationBalances;
             if (typeof(T) == typeof(VacationService.VacationLevel))
                 return (IList<T>)VacationLevels;
+            if (typeof(T) == typeof(VacationService.VacationFunctionalGroup))
+                return (IList<T>)VacationFunctionalGroups;
             return null;
         }
         private Action<IList<T>, ChangeAction> GetEvent<T>()
@@ -59,6 +62,8 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                 return new Action<IList<T>, ChangeAction>((items, action) => this.RaiseOnVacationBalanceChanged(items.Cast<VacationService.VacationBalance>(), action));
             if (typeof(T) == typeof(VacationService.VacationLevel))
                 return new Action<IList<T>, ChangeAction>((items, action) => this.RaiseOnVacationLevelChanged(items.Cast<VacationService.VacationLevel>(), action));
+            if (typeof(T) == typeof(VacationService.VacationFunctionalGroup))
+                return new Action<IList<T>, ChangeAction>((items, action) => this.RaiseOnVacationFunctionalGroupChanged(items.Cast<VacationService.VacationFunctionalGroup>(), action));
             return null;
         }
         private void RaiseItemsInitialize<T>(T[] items)
@@ -232,6 +237,42 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
             }
 
             #endregion
+            #region VacationFunctionalGroup
+
+            if (change.VacationFunctionalGroup != null)
+            {
+                var vacationFunctionalGroupsToUpdate = new List<VacationService.VacationFunctionalGroup>();
+                var vacationFunctionalGroupsToInsert = new List<VacationService.VacationFunctionalGroup>();
+
+                lock (VacationLevels)
+                {
+                    var upd = VacationFunctionalGroups.FullOuterJoin(change.VacationFunctionalGroup, a => a.Id, a => a.Id,
+                        (Existed, New) => new
+                        {
+                            Existed,
+                            New = AutoMapper.Mapper.Map<VacationService.VacationFunctionalGroup>(New)
+                        }).ToArray();
+
+                    foreach (var i in upd)
+                    {
+                        if (i.Existed == null)
+                        {
+                            VacationFunctionalGroups.Add(i.New);
+                            vacationFunctionalGroupsToInsert.Add(i.New);
+                        }
+                        else
+                        {
+                            i.Existed.CopyObjectFrom(i.New);
+                            vacationFunctionalGroupsToUpdate.Add(i.Existed);
+                        }
+                    }
+                }
+
+                RaiseOnVacationFunctionalGroupChanged(vacationFunctionalGroupsToUpdate, ChangeAction.Change);
+                RaiseOnVacationFunctionalGroupChanged(vacationFunctionalGroupsToInsert, ChangeAction.Add);
+            }
+
+            #endregion
         }
         private void ApplyHistoryRemove(HistoryService.HistoryRemoveInfo remove)
         {
@@ -291,6 +332,24 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                     }
                 }
                 RaiseOnVacationChanged(updatedVacations, ChangeAction.Change);
+            }
+
+            #endregion
+            #region VacationFunctionalGroup
+
+            if (remove.VacationFunctionalGroup != null)
+            {
+                var removedVacationFunctionalGroup = new List<VacationService.VacationFunctionalGroup>();
+                lock (VacationFunctionalGroups)
+                {
+                    var del = VacationFunctionalGroups.Join(remove.VacationFunctionalGroup, a => a.Id, id => id, (a, id) => a).ToArray();
+                    foreach (var i in del)
+                    {
+                        removedVacationFunctionalGroup.Add(i);
+                        VacationFunctionalGroups.Remove(i);
+                    }
+                }
+                RaiseOnVacationFunctionalGroupChanged(removedVacationFunctionalGroup, ChangeAction.Remove);
             }
 
             #endregion
@@ -399,6 +458,18 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                             }
                             return false;
                         }));
+                        tasks.Add(sClient.VacationFunctionalGroupsGetAsync().ContinueWith<bool>(t =>
+                        {
+                            if (checkAggregateExceptions(typeof(VacationService.VacationFunctionalGroup), t.Exception))
+                            {
+                                if (t.Result.Error != null)
+                                    throw new Exception(t.Result.Error);
+
+                                modelLevelThContext.DoCallBack(() => RaiseItemsInitialize(t.Result.Values));
+                                return true;
+                            }
+                            return false;
+                        }));
 
                         Task.WaitAll(tasks.ToArray());
                         tasks.ForEach(t => checkAggregateExceptions(null, t.Exception));
@@ -442,9 +513,17 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                      OnVacationLevelChanged?.Invoke(this, new ListItemsEventArgs<VacationService.VacationLevel>(items.ToArray(), action));
              });
 
+        private void RaiseOnVacationFunctionalGroupChanged(IEnumerable<VacationService.VacationFunctionalGroup> items, ChangeAction action)
+            => Context.DoCallBack(() =>
+            {
+                if (items.Any())
+                    OnVacationFunctionalGroupChanged?.Invoke(this, new ListItemsEventArgs<VacationService.VacationFunctionalGroup>(items.ToArray(), action));
+            });
+
         public event EventHandler<ListItemsEventArgs<VacationService.VacationBalance>> OnVacationBalanceChanged;
         public event EventHandler<ListItemsEventArgs<VacationService.Vacation>> OnVacationChanged;
         public event EventHandler<ListItemsEventArgs<VacationService.VacationLevel>> OnVacationLevelChanged;
+        public event EventHandler<ListItemsEventArgs<VacationService.VacationFunctionalGroup>> OnVacationFunctionalGroupChanged;
 
         #endregion
     }
