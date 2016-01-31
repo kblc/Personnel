@@ -22,7 +22,8 @@
     <svgc:SvgViewbox x:Key="rightIconContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
                      Source="/Personnel.Application.Icons;component/SVG/appbar.chevron.right.svg"
                      IsHitTestVisible="False"/>
-    
-    
+    <svgc:SvgViewbox x:Key="listIconContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.list.svg"
+                     IsHitTestVisible="False"/>
 
 </ResourceDictionary>

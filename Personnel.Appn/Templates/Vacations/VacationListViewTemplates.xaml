@@ -182,17 +182,25 @@
         <Grid x:Name="listItemContent" DataContext="{Binding}" Background="Transparent">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260"/>
+                <ColumnDefinition Width="300"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             
-            <StackPanel Orientation="Horizontal">
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
                 <Image Source="{Binding Employee.Photos[Avatar32].File.Link, Converter={StaticResource vacationListViewImagePathToImageSourceConverter}}"
                         x:Name="PART_IconViewer"
-                        Width="32" Height="32"/>
+                        Width="32" Height="32" Grid.Column="0"/>
 
-                <TextBlock Margin="4,2,8,2" VerticalAlignment="Center" x:Name="PART_Text">
+                <TextBlock Margin="4,2,8,2" VerticalAlignment="Center" x:Name="PART_Text" Grid.Column="1" 
+                           TextWrapping="WrapWithOverflow" 
+                           TextTrimming="CharacterEllipsis">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0} {1} ({2} осн, {3} доп.)">
                             <Binding Path="Employee.Employee.Surname"/>
@@ -203,7 +211,7 @@
                     </TextBlock.Text>
                 </TextBlock>
 
-                <StackPanel Orientation="Horizontal" x:Name="PART_ActionBar">
+                <StackPanel Orientation="Horizontal" x:Name="PART_ActionBar" Grid.Column="2" VerticalAlignment="Center">
                     <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
                             Cursor="Hand" Margin="4,2"
                             Command="{Binding Owner.InsertVacationCommand}"
@@ -211,14 +219,28 @@
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
                             VerticalAlignment="Center"
-                            Content="{StaticResource plusIconContent}">
+                            Content="{StaticResource plusIconContent}"
+                            ToolTip="Добавить отпуск">
+                        <Button.LayoutTransform>
+                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        </Button.LayoutTransform>
+                    </Button>
+                    <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
+                            Cursor="Hand" Margin="4,2"
+                            Command="{Binding Owner.ViewAllEmployeeVacationsCommand}"
+                            CommandParameter="{Binding Employee.Employee.Id}"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{StaticResource listIconContent}"
+                            ToolTip="Просмотреть список отпусков">
                         <Button.LayoutTransform>
                             <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
                         </Button.LayoutTransform>
                     </Button>
                 </StackPanel>
 
-            </StackPanel>
+            </Grid>
 
             <!-- Vertical lines and month's names -->
             <xctk:TimelinePanel BeginDate="{Binding Owner.From}"

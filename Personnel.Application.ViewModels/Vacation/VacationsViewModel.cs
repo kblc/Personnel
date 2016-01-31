@@ -19,6 +19,7 @@ namespace Personnel.Application.ViewModels.Vacation
     public class VacationsViewModel : DependencyObject, INotifyPropertyChanged
     {
         private const string MANAGEVACATION = "MANAGEVACATION";
+        private const string MANAGEVACATIONFUNCTIONALGROUPS = "MANAGEVACATIONFUNCTIONALGROUPS";
         private const string VACATIONLEVELPLAN = "PLAN";
         private const string VACATIONLEVELFACT = "FACT";
         private const string VACATIONLEVELTRANSFER = "TRANSFER";
@@ -319,7 +320,7 @@ namespace Personnel.Application.ViewModels.Vacation
         }
 
         private DelegateCommand insertVacationCommand = null;
-        public ICommand InsertVacationCommand { get { return insertVacationCommand ?? (insertVacationCommand = new DelegateCommand(o => InsertVacation((long?)o), o => Staffing?.Current != null)); } }
+        public ICommand InsertVacationCommand { get { return insertVacationCommand ?? (insertVacationCommand = new DelegateCommand(o => InsertVacation((long?)o), o => (Staffing?.Current?.Id ?? 0) == ((long?)o) || CanManageVacations)); } }
 
         private void InsertVacation(long? employeeId)
         {
@@ -350,7 +351,38 @@ namespace Personnel.Application.ViewModels.Vacation
         private DelegateCommand decreaseYearCommand = null;
         public ICommand DecreaseYearCommand { get { return decreaseYearCommand ?? (decreaseYearCommand = new DelegateCommand(o => Year = Year - 1, o => IsLoaded)); } }
 
+        private DelegateCommand viewAllEmployeeVacationsCommand = null;
+        public ICommand ViewAllEmployeeVacationsCommand { get { return viewAllEmployeeVacationsCommand ?? (viewAllEmployeeVacationsCommand = new DelegateCommand(o => ViewAllEmployeeVacations((long)o), o => Staffing?.Current != null)); } }
+
+        private DelegateCommand hideAllEmployeeVacationsCommand = null;
+        public ICommand HideAllEmployeeVacationsCommand { get { return hideAllEmployeeVacationsCommand ?? (hideAllEmployeeVacationsCommand = new DelegateCommand(o => SelectedEmployeeVacationsForView = null)); } }
+
+        private void ViewAllEmployeeVacations(long employeeId)
+        {
+            var vm = EmployeeVacations.FirstOrDefault(v => v.Employee.Employee.Id == employeeId);
+            SelectedEmployeeVacationsForView = vm;
+        }
+
         #endregion
+
+        private bool GetCanManageVacationFunctionalGroupsProperty()
+        {
+            var res = false;
+            if (Staffing != null && Staffing.Current != null)
+            {
+                var canManageRight = Staffing.Rights.FirstOrDefault(r => string.Compare(r.SystemName, MANAGEVACATIONFUNCTIONALGROUPS, true) == 0);
+                if (canManageRight != null)
+                    res = Staffing.Current.Rights.Any(r => r.RightId == canManageRight.Id);
+            }
+            return res;
+        }
+
+        private bool canManageVacationFunctionalGroups = false;
+        public bool CanManageVacationFunctionalGroups
+        {
+            get { return canManageVacationFunctionalGroups; }
+            private set { canManageVacationFunctionalGroups = value; RaisePropertyChanged(); }
+        }
 
         private Timer updateCurrentDateTimeTimer = new Timer(1000);
         public DateTime CurrentDateTime { get { return DateTime.Now; } }
@@ -362,10 +394,14 @@ namespace Personnel.Application.ViewModels.Vacation
             set { if (selectedVacationForEdit == value) return; selectedVacationForEdit = value; RaisePropertyChanged(); }
         }
 
-        internal void RunUnderDispatcher(Delegate a)
+        private VacationListItemViewModel selectedEmployeeVacationsForView = null;
+        public VacationListItemViewModel SelectedEmployeeVacationsForView
         {
-            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, a);
+            get { return selectedEmployeeVacationsForView; }
+            set { if (selectedEmployeeVacationsForView == value) return; selectedEmployeeVacationsForView = value; RaisePropertyChanged(); }
         }
+
+        internal void RunUnderDispatcher(Delegate a) => Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, a);
 
         public VacationsViewModel()
         {
@@ -378,22 +414,21 @@ namespace Personnel.Application.ViewModels.Vacation
             worker.OnVacationBalanceChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationBalanceChanged(s, e)));
             worker.OnVacationChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationChanged(s, e)));
             worker.OnVacationFunctionalGroupChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationFunctionalGroupChanged(s, e)));
-            CanManageVacations = GetCanManageVacationsProperty();
+            UpdateRights();
             Year = DateTime.Now.Year;
             ReloadEmployeeVacations();
             updateCurrentDateTimeTimer.Elapsed += (s,e) => RaisePropertyChanged(nameof(CurrentDateTime));
         }
 
-        private void OnHistoryChanged(object sender, HistoryService.History e) => RunUnderDispatcher(new Action(() => worker.ApplyHistoryChanges(e)));
+        private void UpdateRights()
+        {
+            CanManageVacations = GetCanManageVacationsProperty();
+            CanManageVacationFunctionalGroups = GetCanManageVacationFunctionalGroupsProperty();
+        }
 
-        private void OnRightsChanged(object semder, ListItemsEventArgs<StaffingService.Right> e)
-        {
-            CanManageVacations = GetCanManageVacationsProperty();
-        }
-        private void OnCurrentChanged(object semder, StaffingService.Employee e)
-        {
-            CanManageVacations = GetCanManageVacationsProperty();
-        }
+        private void OnHistoryChanged(object sender, HistoryService.History e) => RunUnderDispatcher(new Action(() => worker.ApplyHistoryChanges(e)));
+        private void OnRightsChanged(object semder, ListItemsEventArgs<StaffingService.Right> e) => RunUnderDispatcher(new Action(() => UpdateRights()));
+        private void OnCurrentChanged(object semder, StaffingService.Employee e) => RunUnderDispatcher(new Action(() => UpdateRights()));
 
         private void OnWorkerVacationLevelChanged(object sender, ListItemsEventArgs<VacationService.VacationLevel> e)
         {
@@ -499,7 +534,6 @@ namespace Personnel.Application.ViewModels.Vacation
 
             OnVacationChanged?.Invoke(this, e);
         }
-
         private void OnWorkerVacationFunctionalGroupChanged(object sender, ListItemsEventArgs<VacationService.VacationFunctionalGroup> e)
         {
             if (new[] { ChangeAction.Add, ChangeAction.Change }.Contains(e.Action))

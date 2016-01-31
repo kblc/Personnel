@@ -15,6 +15,7 @@
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Generic.xaml"/>
         <ResourceDictionary Source="/Personnel.Appn;component/Templates/Vacations/VacationEditTemplates.xaml" />
         <ResourceDictionary Source="/Personnel.Appn;component/Templates/Vacations/VacationListViewTemplates.xaml" />
+        <ResourceDictionary Source="/Personnel.Appn;component/Templates/Vacations/EmployeeVacationListViewTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <svgc:SvgViewbox x:Key="vacationsPlusContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
@@ -104,11 +105,16 @@
                                   Content="{Binding}"
                                   ContentTemplate="{StaticResource VacationsSourceTemplate}"/>
 
-                 <!--Edit employee-->
+                 <!--Edit vacation-->
                 <ContentPresenter Content="{Binding SelectedVacationForEdit}" Grid.ColumnSpan="999" Grid.RowSpan="999"
                                   ContentTemplate="{StaticResource VacationEditEditTemplate}"
                                   x:Name="PART_SelectedVacationEditContentPresenter"
                                   Visibility="Collapsed"/>
+
+                <!--View employee vacations-->
+                <ContentPresenter Content="{Binding SelectedEmployeeVacationsForView}" Grid.ColumnSpan="999" Grid.RowSpan="999"
+                                  ContentTemplate="{StaticResource EmployeeVacationListViewTemplate}"
+                                  x:Name="PART_SelectedEmployeeVacationsForViewContentPresenter"/>
 
                 <!-- Fade -->
                 <Border Background="#99000000" Grid.ColumnSpan="999" Grid.RowSpan="999"
@@ -137,6 +143,9 @@
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding SelectedVacationForEdit.IsEditMode}" Value="True">
                 <Setter TargetName="PART_SelectedVacationEditContentPresenter" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SelectedEmployeeVacationsForView}" Value="{x:Null}">
+                <Setter TargetName="PART_SelectedEmployeeVacationsForViewContentPresenter" Property="Visibility" Value="Collapsed"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>

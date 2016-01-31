@@ -15,27 +15,35 @@ namespace Personnel.Appn.Converters
             if (values == null)
                 return null;
 
-            return ((DateTime)values.First()) + TimeSpan.FromDays(
-                values
-                .Skip(1)
-                .Select(o => 
-                {
-                    int res = 0;
-                    if (int.TryParse(o?.ToString() ?? "0", out res))
-                        return res;
-                    else
-                        return 0;
-                })
-                .Union(new[] { 0 })
-                .Sum()
-                );
+            try {
+
+                return ((DateTime)values.First()) + TimeSpan.FromDays(
+                    values
+                    .Skip(1)
+                    .Select(o =>
+                    {
+                        int res = 0;
+                        if (int.TryParse(o?.ToString() ?? "0", out res))
+                            return res;
+                        else
+                            return 0;
+                    })
+                    .Union(new[] { 0 })
+                    .Sum()
+                    );
+            }
+            catch { return null; }
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
                 return null;
-            return ((DateTime)value) + TimeSpan.FromDays(int.Parse((parameter?.ToString() ?? 0.ToString())));
+            try
+            {
+                return ((DateTime)value) + TimeSpan.FromDays(int.Parse((parameter?.ToString() ?? 0.ToString())));
+            }
+            catch { return null; }
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
