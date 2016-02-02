@@ -15,6 +15,7 @@
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Generic.xaml"/>
         <ResourceDictionary Source="/Personnel.Appn;component/Templates/Vacations/VacationEditTemplates.xaml" />
         <ResourceDictionary Source="/Personnel.Appn;component/Templates/Vacations/VacationListViewTemplates.xaml" />
+        <ResourceDictionary Source="/Personnel.Appn;component/Templates/Vacations/VacationFunctionalGroupsTemplates.xaml" />
         <ResourceDictionary Source="/Personnel.Appn;component/Templates/Vacations/EmployeeVacationListViewTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
@@ -46,6 +47,16 @@
 
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
+
+                <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                        Cursor="Hand" Margin="8"
+                        Command="{Binding ManageFunctionalGroupsCommand}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Content="{StaticResource listIconContent}"
+                        ToolTip="Управление функциональными группами"
+                        Visibility="{Binding CanManageVacationFunctionalGroups, Converter={StaticResource employeeBooleanToVisibilityConverter}}"/>
+
                 <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
                         Cursor="Hand" Margin="8"
                         Command="{Binding InsertVacationCommand}"
@@ -100,12 +111,21 @@
                     <ColumnDefinition Width="0*" MinWidth="130"/>
                 </Grid.ColumnDefinitions>-->
 
-                <!-- List -->
+                <!-- Vacation list (with buttons and other) -->
                 <ContentPresenter Margin="16"
                                   Content="{Binding}"
-                                  ContentTemplate="{StaticResource VacationsSourceTemplate}"/>
+                                  ContentTemplate="{StaticResource VacationsSourceTemplate}"
+                                  x:Name="PART_VacationView"
+                                  Visibility="Collapsed"/>
 
-                 <!--Edit vacation-->
+                <!-- Vacation functional groups -->
+                <ContentPresenter Margin="16"
+                                  Content="{Binding}"
+                                  ContentTemplate="{StaticResource VacationFunctionalGroupsTemplate}"
+                                  x:Name="PART_ManageVacationFunctionalGroupsView"
+                                  Visibility="Collapsed"/>
+
+                <!--Edit vacation-->
                 <ContentPresenter Content="{Binding SelectedVacationForEdit}" Grid.ColumnSpan="999" Grid.RowSpan="999"
                                   ContentTemplate="{StaticResource VacationEditEditTemplate}"
                                   x:Name="PART_SelectedVacationEditContentPresenter"
@@ -146,6 +166,12 @@
             </DataTrigger>
             <DataTrigger Binding="{Binding SelectedEmployeeVacationsForView}" Value="{x:Null}">
                 <Setter TargetName="PART_SelectedEmployeeVacationsForViewContentPresenter" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ViewForm}" Value="ManageVacations">
+                <Setter TargetName="PART_VacationView" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ViewForm}" Value="ManageVacationFunctionalGroups">
+                <Setter TargetName="PART_ManageVacationFunctionalGroupsView" Property="Visibility" Value="Visible"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>

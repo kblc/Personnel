@@ -16,6 +16,12 @@ using System.Windows.Input;
 
 namespace Personnel.Application.ViewModels.Vacation
 {
+    public enum VacationViewForm
+    {
+        ManageVacations = 0,
+        ManageVacationFunctionalGroups
+    };
+
     public class VacationsViewModel : DependencyObject, INotifyPropertyChanged
     {
         private const string MANAGEVACATION = "MANAGEVACATION";
@@ -38,8 +44,8 @@ namespace Personnel.Application.ViewModels.Vacation
         private NotifyCollection<VacationListItemViewModel> employeeVacations = new NotifyCollection<VacationListItemViewModel>();
         public IReadOnlyNotifyCollection<VacationListItemViewModel> EmployeeVacations => employeeVacations;
 
-        private NotifyCollection<VacationService.VacationFunctionalGroup> vacationFunctionalGroups = new NotifyCollection<VacationService.VacationFunctionalGroup>();
-        public IReadOnlyNotifyCollection<VacationService.VacationFunctionalGroup> VacationFunctionalGroups => vacationFunctionalGroups;
+        private NotifyCollection<VacationFunctionalGroupViewModel> vacationFunctionalGroups = new NotifyCollection<VacationFunctionalGroupViewModel>();
+        public IReadOnlyNotifyCollection<VacationFunctionalGroupViewModel> VacationFunctionalGroups => vacationFunctionalGroups;
 
         #region Notifications
 
@@ -317,6 +323,20 @@ namespace Personnel.Application.ViewModels.Vacation
             editVacationCommand?.RaiseCanExecuteChanged();
             increaseYearCommand?.RaiseCanExecuteChanged();
             decreaseYearCommand?.RaiseCanExecuteChanged();
+            manageFunctionalGroupsCommand?.RaiseCanExecuteChanged();
+            manageVacationsCommand?.RaiseCanExecuteChanged();
+        }
+
+        private DelegateCommand insertVacationFunctionalGroupCommand = null;
+        public ICommand InsertVacationFunctionalGroupCommand { get { return insertVacationFunctionalGroupCommand ?? (insertVacationFunctionalGroupCommand = new DelegateCommand(o => InsertVacationFunctionalGroup(), o => CanManageVacationFunctionalGroups)); } }
+
+        private void InsertVacationFunctionalGroup()
+        {
+            var g = new VacationService.VacationFunctionalGroup()
+            {
+                Name = "Новая функциональная группа",
+            };
+            vacationFunctionalGroups.Add(VacationFunctionalGroupViewModel.CreateEdited(g, this));
         }
 
         private DelegateCommand insertVacationCommand = null;
@@ -363,6 +383,24 @@ namespace Personnel.Application.ViewModels.Vacation
             SelectedEmployeeVacationsForView = vm;
         }
 
+        private DelegateCommand manageFunctionalGroupsCommand = null;
+        public ICommand ManageFunctionalGroupsCommand { get { return manageFunctionalGroupsCommand ?? (manageFunctionalGroupsCommand = new DelegateCommand(o => 
+        {
+            ViewForm = VacationViewForm.ManageVacationFunctionalGroups;
+        }, o => CanManageVacationFunctionalGroups)); } }
+
+        private DelegateCommand manageVacationsCommand = null;
+        public ICommand ManageVacationsCommand
+        {
+            get
+            {
+                return manageVacationsCommand ?? (manageVacationsCommand = new DelegateCommand(o =>
+                {
+                    ViewForm = VacationViewForm.ManageVacations;
+                }, o => CanManageVacationFunctionalGroups));
+            }
+        }
+
         #endregion
 
         private bool GetCanManageVacationFunctionalGroupsProperty()
@@ -382,6 +420,13 @@ namespace Personnel.Application.ViewModels.Vacation
         {
             get { return canManageVacationFunctionalGroups; }
             private set { canManageVacationFunctionalGroups = value; RaisePropertyChanged(); }
+        }
+
+        private VacationViewForm viewForm = VacationViewForm.ManageVacations;
+        public VacationViewForm ViewForm
+        {
+            get { return viewForm; }
+            private set { viewForm = value; RaisePropertyChanged(); }
         }
 
         private Timer updateCurrentDateTimeTimer = new Timer(1000);
@@ -542,14 +587,14 @@ namespace Personnel.Application.ViewModels.Vacation
                 {
                     if (d.Id != 0)
                     {
-                        var existedVacationFunctionalGroup = vacationFunctionalGroups.FirstOrDefault(l => l.Id == d.Id);
+                        var existedVacationFunctionalGroup = vacationFunctionalGroups.FirstOrDefault(l => l.Group.Id == d.Id);
                         if (existedVacationFunctionalGroup != null)
                         {
-                            existedVacationFunctionalGroup.CopyObjectFrom(d);
+                            existedVacationFunctionalGroup.Group.CopyObjectFrom(d);
                         }
                         else
                         {
-                            vacationFunctionalGroups.Add(d);
+                            vacationFunctionalGroups.Add(new VacationFunctionalGroupViewModel(d, this));
                         }
                     }
                 }
@@ -560,7 +605,7 @@ namespace Personnel.Application.ViewModels.Vacation
                 {
                     if (d.Id != 0)
                     {
-                        var existedVacationFunctionalGroup = vacationFunctionalGroups.FirstOrDefault(l => l.Id == d.Id);
+                        var existedVacationFunctionalGroup = vacationFunctionalGroups.FirstOrDefault(l => l.Group.Id == d.Id);
                         if (existedVacationFunctionalGroup != null)
                             vacationFunctionalGroups.Remove(existedVacationFunctionalGroup);
                     }
