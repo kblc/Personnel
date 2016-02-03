@@ -198,10 +198,22 @@ namespace Personnel.Services.Model
             #region VacationFunctionalGroup
 
             AutoMapper.Mapper.CreateMap<Repository.Model.VacationFunctionalGroup, Model.VacationFunctionalGroup>()
-                .ForMember(dst => dst.Id, e => e.MapFrom(a => a.VacationFunctionalGroupId));
+                .ForMember(dst => dst.Id, e => e.MapFrom(a => a.VacationFunctionalGroupId))
+                .AfterMap((src, dst) => 
+                {
+                    dst.EmployeIds = src.VacationFunctionalGroupEmployees.Select(i => i.EmployeeId).ToArray();
+                });
 
             AutoMapper.Mapper.CreateMap<Model.VacationFunctionalGroup, Repository.Model.VacationFunctionalGroup>()
-                .ForMember(dst => dst.VacationFunctionalGroupId, e => e.MapFrom(a => a.Id));
+                .ForMember(dst => dst.VacationFunctionalGroupId, e => e.MapFrom(a => a.Id))
+                .AfterMap((src, dst) =>
+                {
+                    dst.VacationFunctionalGroupEmployees = src.EmployeIds.Select(i => new VacationFunctionalGroupEmployee()
+                    {
+                        EmployeeId = i,
+                        VacationFunctionalGroupId = src.Id,
+                    }).ToList();
+                });
 
             #endregion
 

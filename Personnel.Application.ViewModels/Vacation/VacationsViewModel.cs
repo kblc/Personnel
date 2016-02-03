@@ -336,7 +336,17 @@ namespace Personnel.Application.ViewModels.Vacation
             {
                 Name = "Новая функциональная группа",
             };
-            vacationFunctionalGroups.Add(VacationFunctionalGroupViewModel.CreateEdited(g, this));
+            var gvm = VacationFunctionalGroupViewModel.CreateEdited(g, this);
+            gvm.PropertyChanged += (_, e) => 
+            {
+                var checkList = new[] { nameof(gvm.IsDeleted), nameof(gvm.IsEditMode) };
+                if (checkList.Contains(e.PropertyName) && gvm.Group.Id == 0)
+                {
+                    if (vacationFunctionalGroups.Contains(gvm))
+                        vacationFunctionalGroups.Remove(gvm);
+                }
+            };
+            vacationFunctionalGroups.Add(gvm);
         }
 
         private DelegateCommand insertVacationCommand = null;

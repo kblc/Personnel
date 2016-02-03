@@ -3,6 +3,7 @@
                     xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
                     xmlns:helperConverters="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
                     xmlns:vacation="clr-namespace:Personnel.Application.ViewModels.Vacation;assembly=Personnel.Application.ViewModels"
+                    xmlns:staffing="clr-namespace:Personnel.Application.ViewModels.Staffing;assembly=Personnel.Application.ViewModels"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
                     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
@@ -13,18 +14,75 @@
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Generic.xaml"/>
+        <ResourceDictionary Source="/Personnel.Appn;component/Templates/Staffing/EmployeeTemplate.xaml"/>
+        <ResourceDictionary Source="/Personnel.Appn;component/Templates/Staffing/DepartmentsTemplates.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <BooleanToVisibilityConverter x:Key="vacationFunctionalGroupsTemplatesBooleanToVisibilityConverter"/>
 
+    <DataTemplate x:Key="EmployeesListTemplate" DataType="{x:Type staffing:StaffingViewModel}" >
+        <ScrollViewer x:Name="PART_Root" DataContext="{Binding}" 
+                      VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer.Resources>
+                <CollectionViewSource Source="{Binding Employees, Mode=OneWay}" x:Key="sortedEmployees">
+                    <CollectionViewSource.SortDescriptions>
+                        <!--<scm:SortDescription PropertyName="IsEmpty" Direction="Ascending"/>-->
+                        <scm:SortDescription PropertyName="Employee.Surname" Direction="Ascending"/>
+                        <scm:SortDescription PropertyName="Employee.Name" Direction="Ascending"/>
+                        <scm:SortDescription PropertyName="Employee.Patronymic" Direction="Ascending"/>
+                    </CollectionViewSource.SortDescriptions>
+                    <!--<i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Filter">
+                            <add:EventToCommand Command="{Binding ElementName=PART_Root, Path=DataContext.EmployeesFilterCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>-->
+                </CollectionViewSource>
+            </ScrollViewer.Resources>
+
+            <ItemsControl ItemsSource="{Binding Source={StaticResource sortedEmployees}}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type staffing:EmployeeViewModel}">
+                        <ContentPresenter ContentTemplate="{StaticResource EmployeeTemplateTopImageWithDepartmentSimpleDraggable}"
+                                          Content="{Binding}"
+                                          Margin="4"
+                                          x:Name="PART_ContentPresenter"/>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsEmpty}" Value="True">
+                                <Setter TargetName="PART_ContentPresenter" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </DataTemplate>
+
     <DataTemplate x:Key="VacationFunctionalGroupListItemTemplate" DataType="{x:Type vacation:VacationFunctionalGroupViewModel}">
         <Grid ToolTip="{Binding Error}" ToolTipService.IsEnabled="{Binding HasError}">
+            <Grid.Resources>
+                <CollectionViewSource Source="{Binding Employees}" x:Key="sortedEmloyees" >
+                    <CollectionViewSource.SortDescriptions>
+                        <scm:SortDescription PropertyName="Employee.Employee.Name"/>
+                        <scm:SortDescription PropertyName="Employee.Employee.Surname"/>
+                        <scm:SortDescription PropertyName="Employee.Employee.Patronymic"/>
+                    </CollectionViewSource.SortDescriptions>
+                </CollectionViewSource>
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto" MaxWidth="250"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
             <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
                          IsIndeterminate="True"
@@ -45,10 +103,11 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </TextBlock>
-            <TextBox Text="{Binding Group.Name}" x:Name="PART_VacationFunctionalGroupListItemTextBox" Grid.Column="1"
+            <TextBox Text="{Binding GroupForEdit.Name}" x:Name="PART_VacationFunctionalGroupListItemTextBox" Grid.Column="1"
                      Visibility="Hidden" VerticalAlignment="Center"/>
 
-            <WrapPanel Grid.Column="2" x:Name="PART_EditPanel" Orientation="Horizontal" Visibility="Collapsed" VerticalAlignment="Center">
+            <WrapPanel Grid.Column="2" x:Name="PART_EditPanel" Orientation="Horizontal" Visibility="Collapsed" VerticalAlignment="Center"
+                       Margin="8,0">
                 <WrapPanel.LayoutTransform>
                     <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
                 </WrapPanel.LayoutTransform>
@@ -57,12 +116,83 @@
             </WrapPanel>
 
             <WrapPanel Grid.Column="3" x:Name="PART_ActionPanel" Orientation="Horizontal" VerticalAlignment="Center"
+                       Margin="8,0"
                        Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver, Converter={StaticResource vacationFunctionalGroupsTemplatesBooleanToVisibilityConverter}}" >
                 <WrapPanel.LayoutTransform>
                     <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
                 </WrapPanel.LayoutTransform>
                 <Button Content="Удалить" Cursor="Hand" Command="{Binding DeleteCommand}" Margin="4,0" HorizontalAlignment="Left"/>
             </WrapPanel>
+
+            <ItemsControl Grid.Row="1" Grid.ColumnSpan="999" Margin="8,8"
+                          ItemsSource="{Binding Source={StaticResource sortedEmloyees}}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vacation:VacationFunctionalGroupEmployeePlacementViewModel}">
+                        <Grid x:Name="PART_EmployeePlace" Margin="4,4">
+                            <md:Card x:Name="PART_EmployeeContent">
+                                <Grid>
+                                    <ContentPresenter ContentTemplate="{StaticResource EmployeeTemplateLeftImage}"
+                                                      Content="{Binding Employee}" Margin="4,4"/>
+                                    <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
+                                            Cursor="Hand"
+                                            Command="{Binding DeleteCommand}"
+                                            CommandParameter="{Binding Vacation.Id}"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Right"
+                                            Content="{StaticResource deleteIconContent}"
+                                            Visibility="{Binding ElementName=PART_EmployeeContent, Path=IsMouseOver, Converter={StaticResource vacationFunctionalGroupsTemplatesBooleanToVisibilityConverter}}">
+                                        <Button.LayoutTransform>
+                                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                        </Button.LayoutTransform>
+                                    </Button>
+                                </Grid>
+                            </md:Card>
+                            <Border Width="60" Height="60" BorderBrush="Black" BorderThickness="1"
+                                    Background="Transparent" x:Name="PART_EmployeeDropPlace"
+                                    Visibility="Collapsed" AllowDrop="True">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Drop">
+                                        <add:EventToCommand Command="{Binding DropEmployeeCommand}" PassEventArgsToCommand="True"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="DragOver">
+                                        <add:EventToCommand Command="{Binding DragOverEmployeeCommand}" PassEventArgsToCommand="True"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <Grid>
+                                    <TextBlock Text="Перетащите сотрудника для добавления в группу" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                                               TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"
+                                               TextAlignment="Center"
+                                               FontSize="8" x:Name="PART_IsNotBusyTextBlock"/>
+                                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
+                                                 IsIndeterminate="True"
+                                                 VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                 Visibility="Hidden"
+                                                 Margin="4,0"
+                                                 x:Name="PART_IsBusyProgressBar"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Employee}" Value="{x:Null}">
+                                <Setter TargetName="PART_EmployeeDropPlace" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="PART_EmployeeContent" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                                <Setter TargetName="PART_IsBusyProgressBar" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="PART_IsNotBusyTextBlock" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding IsEditMode}" Value="True">
@@ -79,8 +209,9 @@
     <DataTemplate x:Key="VacationFunctionalGroupsTemplate" DataType="{x:Type vacation:VacationsViewModel}" >
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="0*" MinWidth="130"/>
             </Grid.ColumnDefinitions>
             <Grid.Resources>
                 <CollectionViewSource x:Key="VacationFunctionalGroupsSorted" Source="{Binding VacationFunctionalGroups}">
@@ -97,6 +228,12 @@
                      HorizontalAlignment="Stretch"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+            <!-- Employees -->
+            <ContentPresenter Content="{Binding Staffing}" Grid.Column="2"
+                              ContentTemplate="{StaticResource EmployeesListTemplate}"/>
 
             <StackPanel Orientation="Horizontal" Grid.ColumnSpan="999" Grid.RowSpan="999"
                         VerticalAlignment="Bottom" 

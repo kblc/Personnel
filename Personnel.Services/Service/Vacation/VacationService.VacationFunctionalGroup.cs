@@ -114,15 +114,34 @@ namespace Personnel.Services.Service.Vacation
                 {
                     using (var rep = GetNewRepository(logSession))
                     {
-                        var current = SRVCCheckCredentials(logSession, rep, Repository.Model.RightType.Login, Repository.Model.RightType.ManageVacation);
+                        var current = SRVCCheckCredentials(logSession, rep, Repository.Model.RightType.Login, Repository.Model.RightType.ManageVacationFunctionalGroups);
 
-                        var res = rep.Get<Repository.Model.Vacation>(e => e.VacationId == vacationFunctionalGroup.Id).SingleOrDefault();
+                        var res = rep.Get<Repository.Model.VacationFunctionalGroup>(e => e.VacationFunctionalGroupId == vacationFunctionalGroup.Id).SingleOrDefault();
                         if (res == null)
                             throw new KeyNotFoundException();
 
                         var newDbValue = AutoMapper.Mapper.Map<Repository.Model.VacationFunctionalGroup>(vacationFunctionalGroup);
-                        res.CopyObjectFrom(newDbValue);
+                        res.CopyObjectFrom(newDbValue, new[] { nameof(res.VacationFunctionalGroupEmployees) });
 
+                        if (vacationFunctionalGroup.EmployeIds != null)
+                        {
+                            var toDelete = res.VacationFunctionalGroupEmployees
+                                .Where(e => !vacationFunctionalGroup.EmployeIds.Contains(e.EmployeeId))
+                                .ToArray();
+                            foreach (var item in toDelete)
+                                res.VacationFunctionalGroupEmployees.Remove(item);
+
+                            var toAdd = vacationFunctionalGroup.EmployeIds
+                                .Except(res.VacationFunctionalGroupEmployees.Select(i => i.EmployeeId))
+                                .ToArray();
+
+                            foreach (var item in toAdd)
+                                res.VacationFunctionalGroupEmployees.Add(new Repository.Model.VacationFunctionalGroupEmployee()
+                                {
+                                    EmployeeId = item,
+                                    VacationFunctionalGroupId = res.VacationFunctionalGroupId
+                                });
+                        }
                         rep.SaveChanges();
                         
                         return new Model.VacationFunctionalGroupResult(AutoMapper.Mapper.Map<Model.VacationFunctionalGroup>(res));
@@ -149,7 +168,7 @@ namespace Personnel.Services.Service.Vacation
                 {
                     using (var rep = GetNewRepository(logSession))
                     {
-                        var current = SRVCCheckCredentials(logSession, rep, Repository.Model.RightType.Login, Repository.Model.RightType.ManageVacation);
+                        var current = SRVCCheckCredentials(logSession, rep, Repository.Model.RightType.Login, Repository.Model.RightType.ManageVacationFunctionalGroups);
                         var newDbValue = AutoMapper.Mapper.Map<Repository.Model.VacationFunctionalGroup>(vacationFunctionalGroup);
                         newDbValue.VacationFunctionalGroupId = 0;
                         rep.Add(newDbValue);

@@ -3,6 +3,7 @@ using Helpers.WPF;
 using Personnel.Application.ViewModels.Additional;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,76 @@ using System.Windows.Input;
 
 namespace Personnel.Application.ViewModels.Vacation
 {
+    public class VacationFunctionalGroupEmployeePlacementViewModel : NotifyPropertyChangedBase
+    {
+        public VacationFunctionalGroupEmployeePlacementViewModel(VacationFunctionalGroupViewModel owner, Staffing.EmployeeViewModel employee)
+        {
+            Owner = owner;
+            Employee = employee;
+        }
+
+        public VacationFunctionalGroupViewModel Owner { get; private set; }
+        public Staffing.EmployeeViewModel Employee { get; private set; }
+
+        private DelegateCommand dropEmployeeCommand = null;
+        public ICommand DropEmployeeCommand { get { return dropEmployeeCommand ?? (dropEmployeeCommand = new DelegateCommand(o => DropEmployee(o as System.Windows.DragEventArgs), o => Owner.Owner.CanManageVacationFunctionalGroups && !IsBusy)); } }
+        private void DropEmployee(System.Windows.DragEventArgs e)
+        {
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
+
+            if (e.Data.GetDataPresent(typeof(Staffing.EmployeeViewModel)))
+            {
+                var emplVM = e.Data.GetData(typeof(Staffing.EmployeeViewModel)) as Staffing.EmployeeViewModel;
+                if (emplVM != null && this.Employee == null)
+                {
+                    this.Employee = emplVM;
+                    IsBusy = true;
+                    Owner.Save(() => IsBusy = false, () => { IsBusy = false; this.Employee = null; });
+                }
+            }
+        }
+
+        private DelegateCommand dragOverEmployeeCommand = null;
+        public ICommand DragOverEmployeeCommand { get { return dragOverEmployeeCommand ?? (dragOverEmployeeCommand = new DelegateCommand(o => DragOverEmployee(o as System.Windows.DragEventArgs), o => Owner.Owner.CanManageVacationFunctionalGroups && !IsBusy)); } }
+        private void DragOverEmployee(System.Windows.DragEventArgs e)
+        {
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
+
+            if (IsBusy || Employee != null || !e.Data.GetDataPresent(typeof(Staffing.EmployeeViewModel)) || e.Data.GetData(typeof(Staffing.EmployeeViewModel)) == this.Employee)
+            {
+                e.Effects = System.Windows.DragDropEffects.None;
+                e.Handled = true;
+            }
+        }
+
+        private DelegateCommand deleteCommand = null;
+        public ICommand DeleteCommand {
+            get { return deleteCommand ?? (deleteCommand = new DelegateCommand(o => Delete(), o => Owner.Owner.CanManageVacationFunctionalGroups && !IsBusy)); }
+        }
+
+        private void Delete()
+        {
+            IsBusy = true;
+            Owner.Employees.Remove(this);
+            Owner.Save(() => IsBusy = false, () => { IsBusy = false; Owner.Employees.Add(this); });
+        }
+
+        private bool isBusy = false;
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            private set { if (isBusy == value) return; isBusy = value; RaisePropertyChanged(); RaiseAllComamnds(); }
+        }
+
+        private void RaiseAllComamnds()
+        {
+            dropEmployeeCommand?.RaiseCanExecuteChanged();
+            dragOverEmployeeCommand?.RaiseCanExecuteChanged();
+        }
+    }
+
     public class VacationFunctionalGroupViewModel : NotifyPropertyChangedBase
     {
         #region Constructor
@@ -23,6 +94,13 @@ namespace Personnel.Application.ViewModels.Vacation
 
             Group = group;
             Owner = owner;
+
+            LoadEmployees(group);
+            Group.PropertyChanged += (_, e) => 
+            {
+                if (e.PropertyName == nameof(Group.EmployeIds))
+                    LoadEmployees(Group);
+            };
         }
 
         #endregion
@@ -79,6 +157,8 @@ namespace Personnel.Application.ViewModels.Vacation
             get { return error; }
             internal set { if (error == value) return; error = value; RaisePropertyChanged(); RaisePropertyChanged(() => HasError); RaiseAllComamnds(); }
         }
+
+        public ObservableCollection<VacationFunctionalGroupEmployeePlacementViewModel> Employees { get; } = new ObservableCollection<VacationFunctionalGroupEmployeePlacementViewModel>();
 
         private void StartEdit()
         {
@@ -187,8 +267,9 @@ namespace Personnel.Application.ViewModels.Vacation
             }
         }
 
-        private async void SaveAsync(VacationService.VacationFunctionalGroup groupToSave)
+        private async void SaveAsync(VacationService.VacationFunctionalGroup groupToSave, Action sucessEndAction = null, Action errorEndAction = null)
         {
+            SaveEmployees(groupToSave);
             IsBusy = true;
             try
             {
@@ -206,7 +287,7 @@ namespace Personnel.Application.ViewModels.Vacation
                         }
                         else
                         {
-                            this.Group.CopyObjectFrom(updateRes.Value);
+                            return updateRes.Value;
                         }
                     }
                     finally
@@ -222,15 +303,25 @@ namespace Personnel.Application.ViewModels.Vacation
                 if (task.Exception != null)
                     throw task.Exception;
 
+                this.Group.CopyObjectFrom(task.Result);
+
                 Error = null;
                 IsBusy = false;
                 IsEditMode = false;
+                sucessEndAction?.Invoke();
             }
             catch (Exception ex)
             {
                 IsBusy = false;
                 Error = GetExceptionText(nameof(SaveAsync), ex);
+                errorEndAction?.Invoke();
             }
+        }
+
+        internal void Save(Action sucessEndAction = null, Action errorEndAction = null)
+        {
+            SaveEmployees(this.Group);
+            SaveAsync(this.Group, sucessEndAction, errorEndAction);
         }
 
         private string GetExceptionText(string whereCatched, Exception ex)
@@ -241,6 +332,25 @@ namespace Personnel.Application.ViewModels.Vacation
 #endif
 
                 );
+        }
+
+        private void LoadEmployees(VacationService.VacationFunctionalGroup grp)
+        {
+            Employees.Clear();
+            var ids = grp?.EmployeIds ?? new long[] { };
+
+            foreach (var item in Owner.Staffing.Employees.Where(e => ids.Contains(e.Employee.Id)))
+                Employees.Add(new VacationFunctionalGroupEmployeePlacementViewModel(this, item));
+
+            Employees.Add(new VacationFunctionalGroupEmployeePlacementViewModel(this, null));
+        }
+
+        private void SaveEmployees(VacationService.VacationFunctionalGroup grp)
+        {
+            grp.EmployeIds = Employees
+                .Where(e => e.Employee != null)
+                .Select(e => e.Employee.Employee.Id)
+                .ToArray();
         }
 
         internal static VacationFunctionalGroupViewModel CreateEdited(VacationService.VacationFunctionalGroup group, VacationsViewModel owner)
