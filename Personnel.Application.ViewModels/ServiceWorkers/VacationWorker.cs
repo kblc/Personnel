@@ -260,7 +260,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                             VacationFunctionalGroups.Add(i.New);
                             vacationFunctionalGroupsToInsert.Add(i.New);
                         }
-                        else
+                        else if (i.New != null)
                         {
                             i.Existed.CopyObjectFrom(i.New);
                             vacationFunctionalGroupsToUpdate.Add(i.Existed);

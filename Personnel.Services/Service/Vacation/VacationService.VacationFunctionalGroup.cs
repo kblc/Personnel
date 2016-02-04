@@ -129,18 +129,24 @@ namespace Personnel.Services.Service.Vacation
                                 .Where(e => !vacationFunctionalGroup.EmployeIds.Contains(e.EmployeeId))
                                 .ToArray();
                             foreach (var item in toDelete)
+                            {
                                 res.VacationFunctionalGroupEmployees.Remove(item);
+                                rep.Remove(item, saveAfterRemove: false);
+                            }
 
                             var toAdd = vacationFunctionalGroup.EmployeIds
                                 .Except(res.VacationFunctionalGroupEmployees.Select(i => i.EmployeeId))
                                 .ToArray();
 
                             foreach (var item in toAdd)
-                                res.VacationFunctionalGroupEmployees.Add(new Repository.Model.VacationFunctionalGroupEmployee()
+                            {
+                                var newItem = new Repository.Model.VacationFunctionalGroupEmployee()
                                 {
                                     EmployeeId = item,
                                     VacationFunctionalGroupId = res.VacationFunctionalGroupId
-                                });
+                                };
+                                res.VacationFunctionalGroupEmployees.Add(newItem);
+                            }
                         }
                         rep.SaveChanges();
                         

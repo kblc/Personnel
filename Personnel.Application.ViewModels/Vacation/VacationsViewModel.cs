@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Personnel.Application.ViewModels.Vacation
@@ -43,6 +44,8 @@ namespace Personnel.Application.ViewModels.Vacation
 
         private NotifyCollection<VacationListItemViewModel> employeeVacations = new NotifyCollection<VacationListItemViewModel>();
         public IReadOnlyNotifyCollection<VacationListItemViewModel> EmployeeVacations => employeeVacations;
+
+        public ICollectionView EmployeeVacationsCollectionView { get; private set; }
 
         private NotifyCollection<VacationFunctionalGroupViewModel> vacationFunctionalGroups = new NotifyCollection<VacationFunctionalGroupViewModel>();
         public IReadOnlyNotifyCollection<VacationFunctionalGroupViewModel> VacationFunctionalGroups => vacationFunctionalGroups;
@@ -345,6 +348,10 @@ namespace Personnel.Application.ViewModels.Vacation
                     if (vacationFunctionalGroups.Contains(gvm))
                         vacationFunctionalGroups.Remove(gvm);
                 }
+                if (e.PropertyName == nameof(gvm.IsChecked))
+                {
+                    EmployeeVacationsCollectionView.Refresh();
+                }
             };
             vacationFunctionalGroups.Add(gvm);
         }
@@ -411,6 +418,34 @@ namespace Personnel.Application.ViewModels.Vacation
             }
         }
 
+        private DelegateCommand filterVacationsCommand = null;
+        public ICommand FilterVacationsCommand
+        {
+            get
+            {
+                return filterVacationsCommand ?? (filterVacationsCommand = new DelegateCommand(o =>
+                {
+                    var fea = (System.Windows.Data.FilterEventArgs)o;
+                    FilterEvent(fea);
+                }));
+            }
+        }
+
+        private void FilterEvent(System.Windows.Data.FilterEventArgs e)
+        {
+            if (vacationFunctionalGroups.Any(i => i.IsChecked))
+            {
+                var validEmployeeIds = vacationFunctionalGroups
+                    .Where(i => i.IsChecked)
+                    .SelectMany(e2 => e2.Group.EmployeIds)
+                    .Distinct()
+                    .ToArray();
+
+                var employeeVacation = e.Item as VacationListItemViewModel;
+                e.Accepted = validEmployeeIds.Contains(employeeVacation?.Employee?.Employee?.Id ?? 0);
+            }
+        }
+
         #endregion
 
         private bool GetCanManageVacationFunctionalGroupsProperty()
@@ -473,6 +508,24 @@ namespace Personnel.Application.ViewModels.Vacation
             Year = DateTime.Now.Year;
             ReloadEmployeeVacations();
             updateCurrentDateTimeTimer.Elapsed += (s,e) => RaisePropertyChanged(nameof(CurrentDateTime));
+            EmployeeVacationsCollectionView = CollectionViewSource.GetDefaultView(employeeVacations);
+            EmployeeVacationsCollectionView.SortDescriptions.Add(new SortDescription("Employee.Department.Name", ListSortDirection.Ascending));
+            EmployeeVacationsCollectionView.SortDescriptions.Add(new SortDescription("Employee.Employee.Stuffing.Position", ListSortDirection.Ascending));
+            EmployeeVacationsCollectionView.Filter = new Predicate<object>(o =>
+            {
+                if (vacationFunctionalGroups.Any(i => i.IsChecked))
+                {
+                    var validEmployeeIds = vacationFunctionalGroups
+                        .Where(i => i.IsChecked)
+                        .SelectMany(e2 => e2.Group.EmployeIds)
+                        .Distinct()
+                        .ToArray();
+
+                    var employeeVacation = o as VacationListItemViewModel;
+                    return validEmployeeIds.Contains(employeeVacation?.Employee?.Employee?.Id ?? 0);
+                }
+                return true;
+            });
         }
 
         private void UpdateRights()
@@ -604,7 +657,15 @@ namespace Personnel.Application.ViewModels.Vacation
                         }
                         else
                         {
-                            vacationFunctionalGroups.Add(new VacationFunctionalGroupViewModel(d, this));
+                            var vm = new VacationFunctionalGroupViewModel(d, this);
+                            vm.PropertyChanged += (_, e2) => 
+                            {
+                                if (e2.PropertyName == nameof(vm.IsChecked))
+                                {
+                                    EmployeeVacationsCollectionView.Refresh();
+                                }
+                            };
+                            vacationFunctionalGroups.Add(vm);
                         }
                     }
                 }

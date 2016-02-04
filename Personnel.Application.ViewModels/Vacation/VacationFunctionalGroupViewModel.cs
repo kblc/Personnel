@@ -13,14 +13,40 @@ namespace Personnel.Application.ViewModels.Vacation
 {
     public class VacationFunctionalGroupEmployeePlacementViewModel : NotifyPropertyChangedBase
     {
-        public VacationFunctionalGroupEmployeePlacementViewModel(VacationFunctionalGroupViewModel owner, Staffing.EmployeeViewModel employee)
+        public VacationFunctionalGroupEmployeePlacementViewModel(VacationFunctionalGroupViewModel owner, long? employeeId)
         {
             Owner = owner;
-            Employee = employee;
+            EmployeeId = employeeId;
+            if (employeeId != null)
+            { 
+                Employee = Owner.Owner.Staffing.Employees.FirstOrDefault(e => e.Employee.Id == employeeId.Value);
+                Owner.Owner.Staffing.Employees.CollectionChanged += (_, e) => 
+                {
+                    if (e.OldItems != null)
+                    {
+                        var item = e.NewItems.Cast<Staffing.EmployeeViewModel>().FirstOrDefault(e2 => e2.Employee.Id == employeeId.Value);
+                        if (item != null)
+                        {
+                            Employee = null;
+                            RaisePropertyChanged(() => Employee);
+                        }
+                    }
+                    if (e.NewItems != null)
+                    {
+                        var item = e.NewItems.Cast<Staffing.EmployeeViewModel>().FirstOrDefault(e2 => e2.Employee.Id == employeeId.Value);
+                        if (item != null)
+                        {
+                            Employee = item;
+                            RaisePropertyChanged(() => Employee);
+                        }
+                    }
+                };
+            }
         }
 
         public VacationFunctionalGroupViewModel Owner { get; private set; }
         public Staffing.EmployeeViewModel Employee { get; private set; }
+        public long? EmployeeId { get; private set; }
 
         private DelegateCommand dropEmployeeCommand = null;
         public ICommand DropEmployeeCommand { get { return dropEmployeeCommand ?? (dropEmployeeCommand = new DelegateCommand(o => DropEmployee(o as System.Windows.DragEventArgs), o => Owner.Owner.CanManageVacationFunctionalGroups && !IsBusy)); } }
@@ -95,6 +121,8 @@ namespace Personnel.Application.ViewModels.Vacation
             Group = group;
             Owner = owner;
 
+            IsEmpty = group.Id == 0;
+
             LoadEmployees(group);
             Group.PropertyChanged += (_, e) => 
             {
@@ -113,6 +141,13 @@ namespace Personnel.Application.ViewModels.Vacation
         {
             get { return isEmpty; }
             set { if (isEmpty == value) return; isEmpty = value; RaisePropertyChanged(); RaiseAllComamnds(); }
+        }
+
+        private bool isChecked = false;
+        public bool IsChecked
+        {
+            get { return isChecked; }
+            set { if (isChecked == value) return; isChecked = value; RaisePropertyChanged(); RaiseAllComamnds(); }
         }
 
         private bool isDeleted = false;
@@ -287,7 +322,16 @@ namespace Personnel.Application.ViewModels.Vacation
                         }
                         else
                         {
-                            return updateRes.Value;
+                            Owner.RunUnderDispatcher(new Action(() => 
+                            {
+                                this.Group.CopyObjectFrom(updateRes.Value);
+
+                                IsEmpty = Group.Id == 0;
+                                Error = null;
+                                IsBusy = false;
+                                IsEditMode = false;
+                                sucessEndAction?.Invoke();
+                            }));
                         }
                     }
                     finally
@@ -297,18 +341,6 @@ namespace Personnel.Application.ViewModels.Vacation
                 });
 
                 await task;
-
-                IsEmpty = Group.Id == 0;
-
-                if (task.Exception != null)
-                    throw task.Exception;
-
-                this.Group.CopyObjectFrom(task.Result);
-
-                Error = null;
-                IsBusy = false;
-                IsEditMode = false;
-                sucessEndAction?.Invoke();
             }
             catch (Exception ex)
             {
@@ -338,10 +370,8 @@ namespace Personnel.Application.ViewModels.Vacation
         {
             Employees.Clear();
             var ids = grp?.EmployeIds ?? new long[] { };
-
-            foreach (var item in Owner.Staffing.Employees.Where(e => ids.Contains(e.Employee.Id)))
-                Employees.Add(new VacationFunctionalGroupEmployeePlacementViewModel(this, item));
-
+            foreach (var id in ids)
+                Employees.Add(new VacationFunctionalGroupEmployeePlacementViewModel(this, id));
             Employees.Add(new VacationFunctionalGroupEmployeePlacementViewModel(this, null));
         }
 

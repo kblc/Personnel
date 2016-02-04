@@ -41,12 +41,41 @@
 
     <DataTemplate DataType="{x:Type vacation:VacationsViewModel}" x:Key="VacationsSourceTemplate">
         <Grid>
+            <Grid.Resources>
+                <CollectionViewSource x:Key="VacationFunctionalGroupsSorted" Source="{Binding VacationFunctionalGroups}">
+                    <CollectionViewSource.SortDescriptions>
+                        <scm:SortDescription PropertyName="Group.Name"/>
+                    </CollectionViewSource.SortDescriptions>
+                </CollectionViewSource>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Groups -->
+            <ItemsControl ItemsSource="{Binding Source={StaticResource VacationFunctionalGroupsSorted}}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vacation:VacationFunctionalGroupViewModel}">
+                        <md:Card Margin="4,4">
+                            <CheckBox Content="{Binding Group.Name}" IsChecked="{Binding IsChecked}"
+                                      Margin="4,4"/>
+                        </md:Card>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            
             <!-- List -->
-            <ContentPresenter Content="{Binding}"
+            <ContentPresenter Content="{Binding}" Grid.Row="1"
                               ContentTemplate="{StaticResource VacationListViewTemplate}"/>
 
             <!-- Buttons -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16" Grid.RowSpan="999">
 
                 <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
                         Cursor="Hand" Margin="8"

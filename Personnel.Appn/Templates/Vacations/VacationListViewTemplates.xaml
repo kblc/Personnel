@@ -359,9 +359,18 @@
                         <scm:SortDescription PropertyName="Employee.Department.Name"/>
                         <scm:SortDescription PropertyName="Employee.Employee.Stuffing.Position"/>
                     </CollectionViewSource.SortDescriptions>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Filter">
+                            <add:EventToCommand Command="{Binding FilterVacationsCommand}"
+                                                PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </CollectionViewSource>
             </Grid.Resources>
-            <ListBox ItemsSource="{Binding Source={StaticResource EmployeeVacationsSorted}}"
+
+            <!-- {Binding Source={StaticResource EmployeeVacationsSorted}} -->
+            
+            <ListBox ItemsSource="{Binding EmployeeVacationsCollectionView}"
                      ItemTemplate="{StaticResource VacationListItemTemplate}"
                      HorizontalContentAlignment="Stretch"/>
         </Grid>

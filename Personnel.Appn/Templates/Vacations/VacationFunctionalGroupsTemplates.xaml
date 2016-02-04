@@ -125,7 +125,8 @@
             </WrapPanel>
 
             <ItemsControl Grid.Row="1" Grid.ColumnSpan="999" Margin="8,8"
-                          ItemsSource="{Binding Source={StaticResource sortedEmloyees}}">
+                          ItemsSource="{Binding Source={StaticResource sortedEmloyees}}"
+                          x:Name="PART_EmployeesPlace">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal"/>
@@ -203,6 +204,9 @@
             <DataTrigger Binding="{Binding IsBusy}" Value="True">
                 <Setter TargetName="PART_IsBusyProgressBar" Property="Visibility" Value="Visible"/>
             </DataTrigger>
+            <DataTrigger Binding="{Binding IsEmpty}" Value="True">
+                <Setter TargetName="PART_EmployeesPlace" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
 
@@ -238,6 +242,14 @@
             <StackPanel Orientation="Horizontal" Grid.ColumnSpan="999" Grid.RowSpan="999"
                         VerticalAlignment="Bottom" 
                         HorizontalAlignment="Left">
+
+                <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                        Cursor="Hand" Margin="8"
+                        Command="{Binding ManageVacationsCommand}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Content="{StaticResource leftIconContent}"
+                        ToolTip="Назад"/>
 
                 <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
                         Cursor="Hand" Margin="8"
