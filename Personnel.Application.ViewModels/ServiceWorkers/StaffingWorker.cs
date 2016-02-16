@@ -63,8 +63,9 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
             var evnt = GetEvent<T>();
             if (list != null)
             {
+                var oldListItems = list.ToList();
                 list.Clear();
-                evnt?.Invoke(list, ChangeAction.Remove);
+                evnt?.Invoke(oldListItems, ChangeAction.Remove);
                 foreach (var item in items)
                     list.Add(item);
                 evnt?.Invoke(list, ChangeAction.Add);
@@ -479,7 +480,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
 
                         tasks.Add(sClient.DepartmentsGetAsync().ContinueWith<bool>(t =>
                         {
-                            if (checkAggregateExceptions(typeof(StaffingService.Employee), t.Exception))
+                            if (checkAggregateExceptions(typeof(StaffingService.Department), t.Exception))
                             {
                                 if (t.Result.Error != null)
                                     throw new Exception(t.Result.Error);

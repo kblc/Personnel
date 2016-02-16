@@ -11,18 +11,48 @@ namespace Personnel.Services.ConsoleServer
     {
         static void Main(string[] args)
         {
-            var hostName = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).HostName;
+            var hostStaffing = CreateServiceHost(typeof(Service.Staffing.StaffingService), "STAFFING");
+            var hostHistory = CreateServiceHost(typeof(Service.History.HistoryService), "HISTORY", enableSqlLog: false);
+            var hostStorage = CreateServiceHost(typeof(Service.File.FileService), "STORAGE", enableSqlLog: false);
+            var hostVacation = CreateServiceHost(typeof(Service.Vacation.VacationService), "VACATION");
 
-            var hostStaffing = new ServiceHost(typeof(Service.Staffing.StaffingService), new Uri($"http://{hostName}:8733/staffing/"));
             hostStaffing.Open();
-
-            var hostHistory = new ServiceHost(typeof(Service.History.HistoryService), new Uri($"http://{hostName}:8733/history/"));
             hostHistory.Open();
-
-            var hostStorage = new ServiceHost(typeof(Service.File.FileService), new Uri($"http://{hostName}:8733/storage/"));
             hostStorage.Open();
+            hostVacation.Open();
 
-            Console.ReadLine();
+            char ch;
+            do
+            {
+                Console.WriteLine("Press 'Q' key for exit.");
+                ch = Console.ReadKey().KeyChar;
+            } while (ch != 'q' && ch != 'Q');
+        }
+
+        private static ServiceHost CreateServiceHost(Type serviceType, string name, bool enabledLog = true, bool enableSqlLog = true)
+        {
+            var sh = new ServiceHost(serviceType);
+
+            sh.Faulted += (_, e) => Console.WriteLine($"[-{name} FAULTED]");
+            sh.Closed += (_, e) => Console.WriteLine($"[+{name} CLOSED]");
+            sh.Closing += (_, e) => Console.WriteLine($"[+{name} CLOSING]");
+            sh.Opened += (_, e) => Console.WriteLine($"[+{name} OPENED]");
+            sh.Opening += (_, e) => Console.WriteLine($"[+{name} OPENING]");
+            sh.UnknownMessageReceived += (_, e) => Console.WriteLine($"[-{name} UNKNOWN MESSAGE] {e.Message}");
+            if (enabledLog)
+                Service.Base.BaseService.StaticLog += (s, e) =>
+                {
+                    if (s.GetType() == serviceType)
+                        Console.WriteLine($"[{name} LOG] {e}");
+                };
+            if (enableSqlLog)
+                Service.Base.BaseService.StaticSqlLog += (s, e) =>
+                {
+                    if (s.GetType() == serviceType)
+                        Console.WriteLine($"[{name} SQL LOG] {e}");
+                };
+
+            return sh;
         }
     }
 }

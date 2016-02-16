@@ -187,7 +187,7 @@ namespace Personnel.Services.Service.Base
         }
 
         public static event EventHandler<string> StaticSqlLog;
-        public event EventHandler<string> StaticLog;
+        public static event EventHandler<string> StaticLog;
 
         #endregion
     }

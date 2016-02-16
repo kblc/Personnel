@@ -89,13 +89,12 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                 {
                     using (var hClient = new HistoryService.HistoryServiceClient())
                     {
-                        hClient.ChangeLanguage(ServiceCultureInfo.Name);
-
                         #region While not inited
 
-                        while(!inited)
+                        while (!inited)
                         {
                             IsConnecting = true;
+                            hClient.ChangeLanguage(ServiceCultureInfo.Name);
                             var initRes = hClient.Get();
                             IsConnecting = false;
 

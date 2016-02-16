@@ -141,7 +141,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
 
                 lock (VacationBalances)
                 {
-                    var upd = VacationBalances.FullOuterJoin(change.VacationBalance, a => a.Id, a => a.Id,
+                    var upd = VacationBalances.RightOuterJoin(change.VacationBalance, a => a.Id, a => a.Id,
                         (Existed, New) => new
                         {
                             Existed,
@@ -210,7 +210,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
 
                 lock (VacationLevels)
                 {
-                    var upd = VacationLevels.FullOuterJoin(change.VacationLevel, a => a.Id, a => a.Id,
+                    var upd = VacationLevels.RightOuterJoin(change.VacationLevel, a => a.Id, a => a.Id,
                         (Existed, New) => new
                         {
                             Existed,
@@ -246,7 +246,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
 
                 lock (VacationLevels)
                 {
-                    var upd = VacationFunctionalGroups.FullOuterJoin(change.VacationFunctionalGroup, a => a.Id, a => a.Id,
+                    var upd = VacationFunctionalGroups.RightOuterJoin(change.VacationFunctionalGroup, a => a.Id, a => a.Id,
                         (Existed, New) => new
                         {
                             Existed,
@@ -260,7 +260,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                             VacationFunctionalGroups.Add(i.New);
                             vacationFunctionalGroupsToInsert.Add(i.New);
                         }
-                        else if (i.New != null)
+                        else
                         {
                             i.Existed.CopyObjectFrom(i.New);
                             vacationFunctionalGroupsToUpdate.Add(i.Existed);
