@@ -72,7 +72,7 @@ namespace Personnel.Services.Service.Staffing
         /// </summary>
         /// <returns>Result info</returns>
         [OperationContract]
-        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, Method = "GET", UriTemplate = "/department",
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, Method = "GET", UriTemplate = "/departments",
             RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         Model.DepartmentExecutionResults RESTDepartmentsGet();
 

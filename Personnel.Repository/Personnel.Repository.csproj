@@ -104,7 +104,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\VacationFunctionalGroupEmployee.cs" />
     <Compile Include="Model\VacationFunctionalGroup.cs" />
-    <Compile Include="Model\Photo.cs" />
+    <Compile Include="Model\Picture.cs" />
     <Compile Include="Model\History.cs" />
     <Compile Include="Model\HistoryAbstractBase.cs" />
     <Compile Include="Model\IHistoryRecord.cs" />

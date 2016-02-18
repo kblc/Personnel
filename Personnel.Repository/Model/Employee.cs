@@ -30,7 +30,7 @@ namespace Personnel.Repository.Model
             Logins = new HashSet<EmployeeLogin>();
             Photos = new HashSet<EmployeePhoto>();
             Rights = new HashSet<EmployeeRight>();
-            Vocations = new HashSet<Vacation>();
+            Vacations = new HashSet<Vacation>();
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Personnel.Repository.Model
         /// <summary>
         /// Отпуска сотрудника
         /// </summary>
-        public virtual ICollection<Vacation> Vocations { get; set; }
+        public virtual ICollection<Vacation> Vacations { get; set; }
 
         #endregion
     }
